@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>MedCare HMS | Hospital Management System</title>
+
+<style>
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    color: #172033;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 6%;
+
+    background: rgba(3, 31, 50, 0.95);
+    backdrop-filter: blur(12px);
+}
+
+.logo {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nav-links a:hover {
+    color: #67e8f9;
+}
+
+.login-nav {
+    background: #2563eb;
+    padding: 10px 18px;
+    border-radius: 10px;
+}
+
+.logout-nav {
+    background: #dc2626;
+    padding: 10px 18px;
+    border-radius: 10px;
+}
+
+
+/* =========================
+   HOME
+========================= */
+
+#home {
+    min-height: 90vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+    padding: 60px 20px;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            rgba(3, 31, 50, 0.70),
+            rgba(5, 77, 84, 0.72)
+        ),
+        url("https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=2000&q=85")
+        center/cover no-repeat fixed;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.hero-content h1 {
+    font-size: clamp(42px, 7vw, 72px);
+    margin-bottom: 20px;
+}
+
+.hero-content h1 span {
+    color: #67e8f9;
+}
+
+.hero-content p {
+    font-size: 20px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    padding: 14px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.primary-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.secondary-btn {
+    background: white;
+    color: #172033;
+}
+
+
+/* =========================
+   COMMON SECTION
+========================= */
+
+.section {
+    padding: 80px 7%;
+    background: #f8fafc;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-title h2 {
+    color: #0f766e;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: #64748b;
+}
+
+
+/* =========================
+   ABOUT
+========================= */
+
+.about-grid {
+    max-width: 1100px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 40px;
+    align-items: center;
+}
+
+.about-image {
+    min-height: 350px;
+
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.15),
+            rgba(0,0,0,.15)
+        ),
+        url("https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1200&q=85")
+        center/cover no-repeat;
+}
+
+.about-text h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #0f766e;
+}
+
+.about-text p {
+    color: #475569;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+
+/* =========================
+   SERVICES
+========================= */
+
+.services {
+    background: #eef6f7;
+}
+
+.cards {
+    max-width: 1150px;
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+
+    gap: 22px;
+}
+
+.card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.08);
+
+    transition: .3s;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+}
+
+.card-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+.contact-box {
+    max-width: 950px;
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.contact-card {
+    background: white;
+    padding: 30px;
+    border-radius: 18px;
+    text-align: center;
+
+    box-shadow:
+        0 10px 30px rgba(15,23,42,.08);
+}
+
+.contact-card .icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.contact-card h3 {
+    margin-bottom: 10px;
+}
+
+.contact-card p {
+    color: #64748b;
+}
+
+
+/* =========================
+   AUTH SECTION
+========================= */
+
+#auth {
+    min-height: 100vh;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 60px 20px;
+
+    background:
+        linear-gradient(
+            rgba(3,31,50,.72),
+            rgba(5,77,84,.72)
+        ),
+        url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1920&q=85")
+        center/cover no-repeat fixed;
+}
+
+#auth.active {
+    display: flex;
+}
+
+
+/* =========================
+   AUTH CONTAINER
+========================= */
+
+.auth-container {
+    width: 430px;
+    max-width: 95%;
+
+    padding: 35px;
+
+    background: rgba(255,255,255,.97);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.35);
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.auth-logo h1 {
+    color: #0f766e;
+    margin-bottom: 5px;
+}
+
+.auth-logo p {
+    color: #64748b;
+}
+
+
+/* =========================
+   LOGIN / REGISTER BOX
+========================= */
+
+.form-box {
+    display: none;
+}
+
+.form-box.active {
+    display: block;
+}
+
+.form-box h2 {
+    margin-bottom: 20px;
+    color: #172033;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+
+    padding: 13px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37,99,235,.12);
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+.password-wrap {
+    position: relative;
+}
+
+.password-wrap input {
+    padding-right: 45px;
+}
+
+.toggle-password {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.auth-btn {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.auth-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   SWITCH
+========================= */
+
+.switch {
+    text-align: center;
+    margin-top: 18px;
+
+    color: #64748b;
+}
+
+.switch a {
+    color: #2563eb;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+    display: none;
+
+    padding: 11px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+
+    font-size: 14px;
+}
+
+.success {
+    display: block;
+
+    background: #dcfce7;
+
+    color: #166534;
+}
+
+.error {
+    display: block;
+
+    background: #fee2e2;
+
+    color: #991b1b;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #031f32;
+
+    color: #cbd5e1;
+
+    text-align: center;
+
+    padding: 28px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 800px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-box {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navbar">
+
+    <a href="#home" class="logo">
+        🏥 MedCare HMS
+    </a>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#home">
+                Home
+            </a>
+        </li>
+
+        <li>
+            <a href="#about">
+                About
+            </a>
+        </li>
+
+        <li>
+            <a href="#services">
+                Services
+            </a>
+        </li>
+
+        <li>
+            <a href="#contact">
+                Contact
+            </a>
+        </li>
+
+        <li>
+            <a
+                class="login-nav"
+                onclick="openAuth()"
+            >
+                Login / Register
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<!-- =====================================================
+     HOME
+===================================================== -->
+
+<section id="home">
+
+    <div class="hero-content">
+
+        <h1>
+            Welcome to
+            <span>MedCare HMS</span>
+        </h1>
+
+        <p>
+            Modern Hospital Management System
+            for patients, doctors, appointments,
+            departments and billing.
+        </p>
+
+        <div class="hero-buttons">
+
+            <button
+                class="hero-btn primary-btn"
+                onclick="openAuth()"
+            >
+                🔐 Login / Register
+            </button>
+
+            <a
+                href="#services"
+                class="hero-btn secondary-btn"
+            >
+                Explore Services
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section id="about" class="section">
+
+    <div class="section-title">
+
+        <h2>
+            About Us
+        </h2>
+
+        <p>
+            Smart healthcare management made simple.
+        </p>
+
+    </div>
+
+
+    <div class="about-grid">
+
+        <div class="about-image"></div>
+
+
+        <div class="about-text">
+
+            <h2>
+                Better Hospital Management
+            </h2>
+
+            <p>
+                MedCare HMS is designed to help
+                hospitals manage their daily
+                operations through one simple
+                digital platform.
+            </p>
+
+            <p>
+                Hospital administrators and staff
+                can manage patients, doctors,
+                appointments, departments,
+                billing and reports efficiently.
+            </p>
+
+            <p>
+                Our system helps reduce paperwork,
+                improve organization and provide
+                faster access to hospital information.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SERVICES
+===================================================== -->
+
+<section id="services" class="section services">
+
+    <div class="section-title">
+
+        <h2>
+            Our Services
+        </h2>
+
+        <p>
+            Complete hospital management features.
+        </p>
+
+    </div>
+
+
+    <div class="cards">
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                👨‍⚕️
+            </div>
+
+            <h3>
+                Doctor Management
+            </h3>
+
+            <p>
+                Manage doctor profiles,
+                departments, specialization
+                and availability.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                🧑‍🤝‍🧑
+            </div>
+
+            <h3>
+                Patient Management
+            </h3>
+
+            <p>
+                Maintain patient records,
+                information and medical details.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📅
+            </div>
+
+            <h3>
+                Appointments
+            </h3>
+
+            <p>
+                Schedule and manage appointments
+                between patients and doctors.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                💳
+            </div>
+
+            <h3>
+                Billing
+            </h3>
+
+            <p>
+                Manage hospital billing,
+                payments and invoices.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                🏢
+            </div>
+
+            <h3>
+                Departments
+            </h3>
+
+            <p>
+                Organize hospital departments
+                and healthcare services.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h3>
+                Reports
+            </h3>
+
+            <p>
+                Monitor hospital activities
+                through useful reports.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CONTACT
+===================================================== -->
+
+<section id="contact" class="section">
+
+    <div class="section-title">
+
+        <h2>
+            Contact Us
+        </h2>
+
+        <p>
+            We are here to help.
+        </p>
+
+    </div>
+
+
+    <div class="contact-box">
+
+
+        <div class="contact-card">
+
+            <div class="icon">
+                📍
+            </div>
+
+            <h3>
+                Address
+            </h3>
+
+            <p>
+                MedCare Hospital<br>
+                Healthcare Avenue<br>
+                India
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <div class="icon">
+                📞
+            </div>
+
+            <h3>
+                Phone
+            </h3>
+
+            <p>
+                +91 98765 43210
+            </p>
+
+        </div>
+
+
+        <div class="contact-card">
+
+            <div class="icon">
+                ✉️
+            </div>
+
+            <h3>
+                Email
+            </h3>
+
+            <p>
+                support@medcare.com
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LOGIN / REGISTRATION
+===================================================== -->
+
+<section id="auth">
+
+
+<div class="auth-container">
+
+
+    <div class="auth-logo">
+
+        <h1>
+            🏥 MedCare HMS
+        </h1>
+
+        <p>
+            Secure Hospital Management System
+        </p>
+
+    </div>
+
+
+    <!-- ================= LOGIN ================= -->
+
+    <div
+        class="form-box active"
+        id="loginBox"
+    >
+
+        <h2>
+            🔐 Login
+        </h2>
+
+
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
+
+
+        <form id="loginForm">
+
+
+            <div class="input-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Enter your email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword(
+                            'loginPassword',
+                            this
+                        )"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-btn"
+            >
+                Login
+            </button>
+
+
+        </form>
+
+
+        <div class="switch">
+
+            Don't have an account?
+
+            <a onclick="showRegister()">
+                Register
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= REGISTER ================= -->
+
+    <div
+        class="form-box"
+        id="registerBox"
+    >
+
+        <h2>
+            📝 Create Account
+        </h2>
+
+
+        <div
+            id="registerMessage"
+            class="message"
+        ></div>
+
+
+        <form id="registerForm">
+
+
+            <div class="input-group">
+
+                <label>
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="registerName"
+                    placeholder="Enter full name"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="Enter email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Role
+                </label>
+
+                <select
+                    id="registerRole"
+                    required
+                >
+
+                    <option value="">
+                        Select Role
+                    </option>
+
+                    <option value="Admin">
+                        Admin
+                    </option>
+
+                    <option value="Doctor">
+                        Doctor
+                    </option>
+
+                    <option value="Receptionist">
+                        Receptionist
+                    </option>
+
+                    <option value="Staff">
+                        Staff
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Password
+                </label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        placeholder="Create password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword(
+                            'registerPassword',
+                            this
+                        )"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Confirm Password
+                </label>
+
+                <div class="password-wrap">
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        onclick="togglePassword(
+                            'confirmPassword',
+                            this
+                        )"
+                    >
+                        👁
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="auth-btn"
+            >
+                Create Account
+            </button>
+
+
+        </form>
+
+
+        <div class="switch">
+
+            Already have an account?
+
+            <a onclick="showLogin()">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    © 2026 MedCare HMS —
+    Hospital Management System
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =========================================
+   OPEN LOGIN / REGISTER
+========================================= */
+
+function openAuth() {
+
+    document
+        .getElementById("auth")
+        .classList.add("active");
+
+    document
+        .getElementById("auth")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* =========================================
+   SHOW LOGIN
+========================================= */
+
+function showLogin() {
+
+    document
+        .getElementById("loginBox")
+        .classList.add("active");
+
+    document
+        .getElementById("registerBox")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================
+   SHOW REGISTER
+========================================= */
+
+function showRegister() {
+
+    document
+        .getElementById("registerBox")
+        .classList.add("active");
+
+    document
+        .getElementById("loginBox")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================
+   PASSWORD SHOW / HIDE
+========================================= */
+
+function togglePassword(id, button) {
+
+    const input =
+        document.getElementById(id);
+
+    if (input.type === "password") {
+
+        input.type = "text";
+
+        button.textContent = "🙈";
+
+    } else {
+
+        input.type = "password";
+
+        button.textContent = "👁";
+
+    }
+
+}
+
+
+/* =========================================
+   REGISTRATION
+========================================= */
+
+document
+    .getElementById("registerForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const name =
+                document
+                    .getElementById("registerName")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("registerEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const role =
+                document
+                    .getElementById("registerRole")
+                    .value;
+
+
+            const password =
+                document
+                    .getElementById("registerPassword")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+
+            const message =
+                document
+                    .getElementById(
+                        "registerMessage"
+                    );
+
+
+            /* Password validation */
+
+            if (
+                password !==
+                confirmPassword
+            ) {
+
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.className =
+                    "message error";
+
+                return;
+
+            }
+
+
+            /* Get users */
+
+            let users =
+                JSON.parse(
+                    localStorage.getItem(
+                        "medcareUsers"
+                    )
+                ) || [];
+
+
+            /* Check email */
+
+            const existingUser =
+                users.find(
+                    user =>
+                        user.email === email
+                );
+
+
+            if (existingUser) {
+
+                message.textContent =
+                    "Email is already registered.";
+
+                message.className =
+                    "message error";
+
+                return;
+
+            }
+
+
+            /* Create user */
+
+            const newUser = {
+
+                name: name,
+
+                email: email,
+
+                role: role,
+
+                password: password
+
+            };
+
+
+            users.push(newUser);
+
+
+            /* Save */
+
+            localStorage.setItem(
+                "medcareUsers",
+                JSON.stringify(users)
+            );
+
+
+            /* Success */
+
+            message.textContent =
+                "Registration successful! Please login.";
+
+            message.className =
+                "message success";
+
+
+            document
+                .getElementById("registerForm")
+                .reset();
+
+
+            setTimeout(function() {
+
+                showLogin();
+
+                document
+                    .getElementById(
+                        "loginEmail"
+                    )
+                    .value = email;
+
+            }, 1200);
+
+        }
+    );
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const email =
+                document
+                    .getElementById("loginEmail")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            const password =
+                document
+                    .getElementById(
+                        "loginPassword"
+                    )
+                    .value;
+
+
+            const message =
+                document
+                    .getElementById(
+                        "loginMessage"
+                    );
+
+
+            /* Demo admin account */
+
+            const demoAdmin = {
+
+                name: "Administrator",
+
+                email: "admin@medcare.com",
+
+                password: "admin123",
+
+                role: "Admin"
+
+            };
+
+
+            /* Get users */
+
+            let users =
+                JSON.parse(
+                    localStorage.getItem(
+                        "medcareUsers"
+                    )
+                ) || [];
+
+
+            /* Add admin */
+
+            if (
+                !users.some(
+                    user =>
+                        user.email ===
+                        demoAdmin.email
+                )
+            ) {
+
+                users.push(demoAdmin);
+
+                localStorage.setItem(
+                    "medcareUsers",
+                    JSON.stringify(users)
+                );
+
+            }
+
+
+            /* Find user */
+
+            const user =
+                users.find(
+                    user =>
+                        user.email === email &&
+                        user.password === password
+                );
+
+
+            /* Login failed */
+
+            if (!user) {
+
+                message.textContent =
+                    "Invalid email or password.";
+
+                message.className =
+                    "message error";
+
+                return;
+
+            }
+
+
+            /* Save session */
+
+            localStorage.setItem(
+                "medcareLoggedIn",
+                "true"
+            );
+
+
+            localStorage.setItem(
+                "medcareCurrentUser",
+                JSON.stringify(user)
+            );
+
+
+            /* Success */
+
+            message.textContent =
+                "Login successful! Opening dashboard...";
+
+            message.className =
+                "message success";
+
+
+            /* Dashboard */
+
+            setTimeout(function() {
+
+                window.location.href =
+                    "index.html";
+
+            }, 800);
+
+        }
+    );
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+function logoutUser() {
+
+    localStorage.removeItem(
+        "medcareLoggedIn"
+    );
+
+    localStorage.removeItem(
+        "medcareCurrentUser"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+</script>
+
+</body>
+</html>

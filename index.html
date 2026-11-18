@@ -1,0 +1,5904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>MedCare HMS | Hospital Management System</title>
+
+    <!-- =====================================================
+         ICONS
+    ====================================================== -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- =====================================================
+         CHART
+    ====================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- =====================================================
+         GOOGLE FONT
+    ====================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        /* =====================================================
+           ROOT
+        ====================================================== */
+
+        :root {
+
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #06b6d4;
+
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+
+            --bg: #f4f7fb;
+            --card: #ffffff;
+            --text: #172033;
+            --muted: #64748b;
+
+            --border: #e5eaf2;
+
+            --sidebar: #344e8f;
+            --sidebar-hover: #172a56;
+
+            --shadow:
+                0 10px 30px rgba(27, 50, 104, 0.07);
+
+            --radius: 18px;
+        }
+
+
+        /* =====================================================
+           RESET
+        ====================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            font-family: "Inter", sans-serif;
+
+            background:
+                linear-gradient(
+                    rgba(244,247,251,.96),
+                    rgba(244,247,251,.96)
+                ),
+                url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1800&q=80");
+
+            background-size: cover;
+            background-attachment: fixed;
+
+            color: var(--text);
+
+            min-height: 100vh;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           DARK MODE
+        ====================================================== */
+
+        body.dark-mode {
+
+            --bg: #0b1220;
+            --card: #111c2f;
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --border: #24324a;
+
+            background:
+                linear-gradient(
+                    rgba(5,10,20,.94),
+                    rgba(5,10,20,.94)
+                ),
+                url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1800&q=80");
+        }
+
+
+        /* =====================================================
+           APP
+        ====================================================== */
+
+        .app {
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 260px;
+            height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #093baf,
+                    #102653
+                );
+
+            color: rgb(71, 28, 189);
+
+            z-index: 1000;
+
+            transition: .3s ease;
+
+            overflow-y: auto;
+
+            box-shadow:
+                8px 0 30px rgba(0,0,0,.12);
+        }
+
+
+        .brand {
+
+            height: 82px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 22px;
+
+            border-bottom:
+                1px solid rgba(255,255,255,.08);
+        }
+
+
+        .brand-icon {
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #06b6d4
+                );
+
+            margin-right: 12px;
+        }
+
+
+        .brand-icon i {
+            width: 25px;
+            height: 25px;
+        }
+
+
+        .brand-text h2 {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+
+        .brand-text span {
+            font-size: 10px;
+            color: #93c5fd;
+        }
+
+
+        .menu-title {
+
+            padding:
+                24px 22px 10px;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            color: #7f93bb;
+
+            letter-spacing: 1px;
+        }
+
+
+        .menu {
+
+            padding: 0 12px 20px;
+        }
+
+
+        .menu-item {
+
+            width: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 12px 14px;
+
+            margin-bottom: 5px;
+
+            border-radius: 12px;
+
+            color: #c9d5eb;
+
+            transition: .2s;
+
+            font-size: 13px;
+
+            border: none;
+
+            background: transparent;
+
+            text-align: left;
+        }
+
+
+        .menu-item i {
+            width: 18px;
+        }
+
+
+        .menu-item:hover {
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: white;
+        }
+
+
+        .menu-item.active {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #0ea5e9
+                );
+
+            color: white;
+
+            box-shadow:
+                0 7px 20px rgba(37,99,235,.3);
+        }
+
+
+        .menu-badge {
+
+            margin-left: auto;
+
+            min-width: 21px;
+
+            height: 21px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,.14);
+
+            font-size: 10px;
+        }
+
+        .sidebar-bottom {
+
+           padding: 15px;
+
+           border-top:
+           1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-user {
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 10px;
+        }
+
+
+        .user-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #06b6d4
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        .sidebar-user strong {
+            font-size: 12px;
+        }
+
+
+        .sidebar-user span {
+            display: block;
+
+            font-size: 10px;
+
+            color: #8fa2c7;
+        }
+
+
+        /* =====================================================
+           COLLAPSED SIDEBAR
+        ====================================================== */
+
+        body.sidebar-collapsed .sidebar {
+            width: 78px;
+        }
+
+
+        body.sidebar-collapsed .main {
+            margin-left: 78px;
+        }
+
+
+        body.sidebar-collapsed .brand-text,
+        body.sidebar-collapsed .menu-title,
+        body.sidebar-collapsed .menu-item span,
+        body.sidebar-collapsed .menu-badge,
+        body.sidebar-collapsed .sidebar-user > div {
+            display: none;
+        }
+
+
+        body.sidebar-collapsed .brand {
+            justify-content: center;
+            padding: 0;
+        }
+
+
+        body.sidebar-collapsed .brand-icon {
+            margin: 0;
+        }
+
+
+        body.sidebar-collapsed .menu-item {
+            justify-content: center;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .main {
+
+            margin-left: 260px;
+
+            min-height: 100vh;
+
+            transition: .3s ease;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .header {
+
+            height: 82px;
+
+            padding: 0 28px;
+
+            background:
+                rgba(255,255,255,.88);
+
+            backdrop-filter:
+                blur(16px);
+
+            border-bottom:
+                1px solid var(--border);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 500;
+        }
+
+
+        body.dark-mode .header {
+            background: rgba(17,28,47,.9);
+        }
+
+
+        .header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+        }
+
+
+        .mobile-menu,
+        .collapse-btn {
+
+            width: 42px;
+            height: 42px;
+
+            border: 1px solid var(--border);
+
+            background: var(--card);
+
+            color: var(--text);
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .mobile-menu {
+            display: none;
+        }
+
+
+        .page-heading h1 {
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+
+        .page-heading p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+
+        .header-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .search-box {
+
+            width: 260px;
+
+            height: 42px;
+
+            border:
+                1px solid var(--border);
+
+            background: var(--card);
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 12px;
+
+            gap: 8px;
+        }
+
+
+        .search-box i {
+
+            width: 17px;
+
+            color: var(--muted);
+        }
+
+
+        .search-box input {
+
+            width: 100%;
+
+            border: none;
+
+            outline: none;
+
+            background: transparent;
+
+            color: var(--text);
+
+            font-size: 12px;
+        }
+
+
+        .icon-btn {
+
+            width: 42px;
+            height: 42px;
+
+            border:
+                1px solid var(--border);
+
+            background: var(--card);
+
+            color: var(--text);
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+        }
+
+
+        .notification-dot {
+
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            background: #ef4444;
+
+            border-radius: 50%;
+
+            top: 8px;
+            right: 8px;
+
+            border: 2px solid var(--card);
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ====================================================== */
+
+        .content {
+
+            padding: 28px;
+        }
+
+
+        .page {
+            display: none;
+
+            animation: pageIn .35s ease;
+        }
+
+
+        .page.active {
+            display: block;
+        }
+
+
+        @keyframes pageIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =====================================================
+           HERO
+        ====================================================== */
+
+        .hero {
+
+            min-height: 220px;
+
+            border-radius: 24px;
+
+            padding: 35px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            overflow: hidden;
+
+            position: relative;
+
+            color: white;
+
+            background:
+
+                linear-gradient(
+                    100deg,
+                    rgba(8,34,82,.95),
+                    rgba(37,99,235,.82)
+                ),
+
+                url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1500&q=80");
+
+            background-size: cover;
+
+            box-shadow:
+                0 20px 45px rgba(37,99,235,.22);
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.08);
+
+            right: -70px;
+            top: -80px;
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 650px;
+        }
+
+
+        .hero-content small {
+
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,.12);
+
+            font-size: 10px;
+
+            margin-bottom: 13px;
+        }
+
+
+        .hero-content h2 {
+
+            font-size: 30px;
+
+            line-height: 1.2;
+
+            margin-bottom: 10px;
+        }
+
+
+        .hero-content p {
+
+            color: #dbeafe;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+            max-width: 560px;
+        }
+
+
+        .hero-actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 22px;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
+
+        .btn {
+
+            min-height: 40px;
+
+            padding: 0 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            transition: .2s;
+        }
+
+
+        .btn i {
+            width: 15px;
+        }
+
+
+        .btn-primary {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #0ea5e9
+                );
+
+            color: white;
+
+            box-shadow:
+                0 7px 18px rgba(37,99,235,.2);
+        }
+
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+        }
+
+
+        .btn-light {
+
+            background: var(--card);
+
+            color: var(--text);
+
+            border:
+                1px solid var(--border);
+        }
+
+
+        .hero .btn-light {
+
+            background:
+                rgba(255,255,255,.12);
+
+            color: white;
+
+            border:
+                1px solid rgba(255,255,255,.18);
+        }
+
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ====================================================== */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 16px;
+
+            margin-top: 22px;
+        }
+
+
+        .stat-card {
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 20px;
+
+            box-shadow: var(--shadow);
+
+            transition: .25s;
+        }
+
+
+        .stat-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 15px 35px rgba(15,23,42,.1);
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+        }
+
+
+        .stat-icon {
+
+            width: 46px;
+            height: 46px;
+
+            border-radius: 14px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+        }
+
+
+        .stat-icon i {
+            width: 21px;
+        }
+
+
+        .stat-card h3 {
+
+            font-size: 25px;
+
+            margin-top: 16px;
+        }
+
+
+        .stat-card p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 4px;
+        }
+
+
+        .stat-trend {
+
+            font-size: 10px;
+
+            color: #16a34a;
+
+            background: #f0fdf4;
+
+            padding: 5px 8px;
+
+            border-radius: 20px;
+        }
+
+
+        /* =====================================================
+           GRID
+        ====================================================== */
+
+        .two-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.55fr 1fr;
+
+            gap: 18px;
+
+            margin-top: 20px;
+        }
+
+
+        .three-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 18px;
+
+            margin-top: 20px;
+        }
+
+
+        /* =====================================================
+           CARD
+        ====================================================== */
+
+        .card {
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+        }
+
+
+        .card-header {
+
+            padding: 18px 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+
+        .card-header h3 {
+
+            font-size: 14px;
+        }
+
+
+        .card-header p {
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-top: 4px;
+        }
+
+
+        .card-body {
+            padding: 20px;
+        }
+
+
+        .chart-box {
+
+            height: 270px;
+
+            position: relative;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ====================================================== */
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 750px;
+        }
+
+
+        th {
+
+            background:
+                rgba(37,99,235,.04);
+
+            color: var(--muted);
+
+            text-transform: uppercase;
+
+            letter-spacing: .4px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            padding: 12px 15px;
+
+            text-align: left;
+        }
+
+
+        td {
+
+            padding: 14px 15px;
+
+            border-top:
+                1px solid var(--border);
+
+            font-size: 11px;
+
+            color: var(--text);
+        }
+
+
+        tr:hover td {
+
+            background:
+                rgba(37,99,235,.025);
+        }
+
+
+        /* =====================================================
+           STATUS
+        ====================================================== */
+
+        .status {
+
+            display: inline-flex;
+
+            padding: 5px 9px;
+
+            border-radius: 30px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .status.active,
+        .status.available,
+        .status.confirmed,
+        .status.paid {
+
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .status.pending,
+        .status.busy {
+
+            background: #fef3c7;
+
+            color: #b45309;
+        }
+
+
+        .status.cancelled {
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        /* =====================================================
+           SECTION HEADER
+        ====================================================== */
+
+        .section-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+
+        .section-header h2 {
+
+            font-size: 19px;
+
+            font-weight: 800;
+        }
+
+
+        .section-header p {
+
+            font-size: 11px;
+
+            color: var(--muted);
+
+            margin-top: 4px;
+        }
+
+
+        .section-actions {
+
+            display: flex;
+
+            gap: 8px;
+        }
+
+
+        /* =====================================================
+           DOCTORS
+        ====================================================== */
+
+        .doctor-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 18px;
+        }
+
+
+        .doctor-card {
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow: var(--shadow);
+
+            transition: .25s;
+        }
+
+
+        .doctor-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 20px 40px rgba(15,23,42,.12);
+        }
+
+
+        .doctor-cover {
+
+            height: 85px;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #06b6d4
+                );
+        }
+
+
+        .doctor-card-content {
+
+            text-align: center;
+
+            padding:
+                0 18px 20px;
+        }
+
+
+        .doctor-photo {
+
+            width: 82px;
+            height: 82px;
+
+            margin:
+                -41px auto 12px;
+
+            border-radius: 50%;
+
+            border: 5px solid var(--card);
+
+            overflow: hidden;
+
+            background:
+                #e2e8f0;
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,.1);
+        }
+
+
+        .doctor-photo img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .doctor-avatar {
+
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #06b6d4
+                );
+
+            color: white;
+
+            font-size: 23px;
+
+            font-weight: 800;
+        }
+
+
+        .doctor-name {
+
+            font-size: 14px;
+
+            font-weight: 800;
+        }
+
+
+        .doctor-specialization {
+
+            font-size: 10px;
+
+            color: var(--muted);
+
+            margin:
+                5px 0 9px;
+        }
+
+
+        .doctor-status {
+
+            display: inline-flex;
+
+            padding:
+                5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .doctor-info {
+
+            margin-top: 17px;
+
+            text-align: left;
+
+            display: grid;
+
+            gap: 9px;
+        }
+
+
+        .doctor-info div {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 9px;
+
+            color: var(--muted);
+        }
+
+
+        .doctor-info i {
+            width: 14px;
+            color: var(--primary);
+        }
+
+
+        .doctor-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 7px;
+
+            margin-top: 17px;
+        }
+
+
+        .doctor-actions button {
+
+            min-height: 34px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid var(--border);
+
+            background: var(--card);
+
+            color: var(--text);
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+
+        .doctor-actions button:first-child {
+
+            background:
+                #eff6ff;
+
+            color:
+                #2563eb;
+
+            border-color:
+                #dbeafe;
+        }
+
+
+
+        /* =====================================================
+           DEPARTMENTS
+        ====================================================== */
+
+        .department-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4,1fr);
+
+            gap: 18px;
+        }
+
+
+        .department-card {
+
+            padding: 20px;
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+
+            box-shadow: var(--shadow);
+
+            transition: .25s;
+        }
+
+
+        .department-card:hover {
+
+            transform:
+                translateY(-4px);
+        }
+
+
+        .department-icon {
+
+            width: 48px;
+            height: 48px;
+
+            border-radius: 14px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #eff6ff;
+
+            color:
+                #2563eb;
+
+            margin-bottom: 14px;
+        }
+
+
+        .department-card h3 {
+
+            font-size: 14px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .department-card p {
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.6;
+        }
+
+
+        .department-meta {
+
+            margin-top: 15px;
+
+            padding-top: 12px;
+
+            border-top:
+                1px solid var(--border);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 9px;
+
+            color: var(--muted);
+        }
+
+
+        /* =====================================================
+           SCHEDULE
+        ====================================================== */
+
+        .schedule-list {
+
+            display: grid;
+
+            gap: 12px;
+        }
+
+
+        .schedule-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 12px;
+        }
+
+
+        .schedule-time {
+
+            font-weight: 800;
+
+            color:
+                var(--primary);
+
+            font-size: 10px;
+
+            width: 42px;
+        }
+
+
+        .schedule-info {
+
+            flex: 1;
+        }
+
+
+        .schedule-info strong {
+
+            display: block;
+
+            font-size: 11px;
+        }
+
+
+        .schedule-info span {
+
+            font-size: 9px;
+
+            color: var(--muted);
+        }
+
+
+        /* =====================================================
+           FORMS
+        ====================================================== */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 15px;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .form-group.full {
+            grid-column: 1/-1;
+        }
+
+
+        .form-group label {
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            color: var(--text);
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            min-height: 42px;
+
+            border:
+                1px solid var(--border);
+
+            background: var(--card);
+
+            color: var(--text);
+
+            border-radius: 10px;
+
+            outline: none;
+
+            padding:
+                0 12px;
+
+            font-size: 11px;
+        }
+
+
+        .form-group textarea {
+
+            padding: 12px;
+
+            min-height: 90px;
+
+            resize: vertical;
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            border-color:
+                #60a5fa;
+
+            box-shadow:
+                0 0 0 3px rgba(37,99,235,.08);
+        }
+
+
+        .form-actions {
+
+            grid-column: 1/-1;
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =====================================================
+           PHOTO UPLOAD
+        ====================================================== */
+
+        .photo-upload {
+
+            border:
+                2px dashed #cbd5e1;
+
+            border-radius: 14px;
+
+            min-height: 150px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-direction: column;
+
+            gap: 8px;
+
+            cursor: pointer;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+
+        .photo-upload input {
+
+            position: absolute;
+
+            inset: 0;
+
+            opacity: 0;
+
+            cursor: pointer;
+        }
+
+
+        .photo-upload i {
+
+            color:
+                var(--primary);
+        }
+
+
+        .photo-upload span {
+
+            color:
+                var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        #doctorPhotoPreview {
+
+            width: 100%;
+
+            height: 180px;
+
+            object-fit: cover;
+
+            display: none;
+        }
+
+
+        /* =====================================================
+           MODAL
+        ====================================================== */
+
+        .modal-backdrop {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(2,8,23,.65);
+
+            backdrop-filter:
+                blur(5px);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 3000;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transition: .25s;
+        }
+
+
+        .modal-backdrop.show {
+
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+
+        .modal {
+
+            width: 100%;
+
+            max-width: 650px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: var(--card);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 30px 80px rgba(0,0,0,.25);
+
+            transform:
+                translateY(20px)
+                scale(.97);
+
+            transition: .25s;
+        }
+
+
+        .modal-backdrop.show .modal {
+
+            transform:
+                translateY(0)
+                scale(1);
+        }
+
+
+        .modal-header {
+
+            padding: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+
+        .modal-header h2 {
+
+            font-size: 17px;
+        }
+
+
+        .modal-close {
+
+            width: 34px;
+            height: 34px;
+
+            border: none;
+
+            background:
+                #f1f5f9;
+
+            color: #475569;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+
+        .modal-body {
+            padding: 20px;
+        }
+
+
+        /* =====================================================
+           DOCTOR DETAILS
+        ====================================================== */
+
+        .doctor-detail {
+
+            text-align: center;
+        }
+
+
+        .doctor-detail-photo {
+
+            width: 115px;
+            height: 115px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            border: 5px solid #eff6ff;
+
+            margin-bottom: 12px;
+        }
+
+
+        .doctor-detail h2 {
+            font-size: 20px;
+        }
+
+
+        .doctor-detail p {
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 4px;
+        }
+
+
+        .detail-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2,1fr);
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+            text-align: left;
+        }
+
+
+        .detail-item {
+
+            padding: 13px;
+
+            background:
+                rgba(37,99,235,.04);
+
+            border-radius: 11px;
+        }
+
+
+        .detail-item span {
+
+            display: block;
+
+            font-size: 9px;
+
+            color: var(--muted);
+
+            margin-bottom: 4px;
+        }
+
+
+        .detail-item strong {
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           REPORT CARDS
+        ====================================================== */
+
+        .report-card {
+
+            padding: 22px;
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 18px;
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .report-card-icon {
+
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #eff6ff;
+
+            color:
+                #2563eb;
+
+            border-radius: 14px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .report-card h3 {
+            font-size: 14px;
+        }
+
+
+        .report-card p {
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.6;
+
+            margin:
+                7px 0 15px;
+        }
+
+
+        /* =====================================================
+           BILLING SUMMARY
+        ====================================================== */
+
+        .billing-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3,1fr);
+
+            gap: 16px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .billing-box {
+
+            padding: 20px;
+
+            border-radius: 17px;
+
+            background: var(--card);
+
+            border:
+                1px solid var(--border);
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .billing-box span {
+
+            font-size: 10px;
+
+            color: var(--muted);
+        }
+
+
+        .billing-box h2 {
+
+            margin-top: 9px;
+
+            font-size: 22px;
+        }
+
+
+        /* =====================================================
+           NOTIFICATION DRAWER
+        ====================================================== */
+
+        .overlay {
+
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(2,8,23,.4);
+
+            z-index: 1800;
+
+            opacity: 0;
+
+            visibility: hidden;
+
+            transition: .25s;
+        }
+
+
+        .overlay.show {
+
+            opacity: 1;
+
+            visibility: visible;
+        }
+
+
+        .notification-drawer {
+
+            position: fixed;
+
+            top: 0;
+            right: -400px;
+
+            width: 380px;
+
+            height: 100vh;
+
+            background: var(--card);
+
+            z-index: 2000;
+
+            box-shadow:
+                -15px 0 40px rgba(0,0,0,.15);
+
+            transition: .3s;
+        }
+
+
+        .notification-drawer.open {
+            right: 0;
+        }
+
+
+        .notification-header {
+
+            height: 75px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 20px;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+
+        .notification-header h3 {
+            font-size: 15px;
+        }
+
+
+        .notification-item {
+
+            padding: 16px 20px;
+
+            border-bottom:
+                1px solid var(--border);
+
+            display: flex;
+
+            gap: 12px;
+        }
+
+
+        .notification-icon {
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #eff6ff;
+
+            color:
+                #2563eb;
+
+            flex-shrink: 0;
+        }
+
+
+        .notification-item strong {
+
+            display: block;
+
+            font-size: 11px;
+        }
+
+
+        .notification-item p {
+
+            font-size: 9px;
+
+            color: var(--muted);
+
+            margin-top: 4px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =====================================================
+           TOAST
+        ====================================================== */
+
+        #toast {
+
+            position: fixed;
+
+            right: 25px;
+
+            bottom: 25px;
+
+            min-width: 280px;
+
+            max-width: 380px;
+
+            background:
+                #0f172a;
+
+            color: white;
+
+            padding: 14px 18px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            box-shadow:
+                0 15px 35px rgba(0,0,0,.2);
+
+            transform:
+                translateY(100px);
+
+            opacity: 0;
+
+            transition: .3s;
+
+            z-index: 5000;
+
+            font-size: 11px;
+        }
+
+
+        #toast.show {
+
+            transform:
+                translateY(0);
+
+            opacity: 1;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media(max-width:1200px) {
+
+            .doctor-grid {
+                grid-template-columns:
+                    repeat(3,1fr);
+            }
+
+            .department-grid {
+                grid-template-columns:
+                    repeat(3,1fr);
+            }
+        }
+
+
+        @media(max-width:1000px) {
+
+            .sidebar {
+                left: -270px;
+            }
+
+
+            .sidebar.mobile-open {
+                left: 0;
+            }
+
+
+            .main {
+                margin-left: 0 !important;
+            }
+
+
+            .mobile-menu {
+                display: flex;
+            }
+
+
+            .collapse-btn {
+                display: none;
+            }
+
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+
+
+            .two-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .doctor-grid {
+                grid-template-columns:
+                    repeat(2,1fr);
+            }
+        }
+
+
+        @media(max-width:700px) {
+
+            .content {
+                padding: 16px;
+            }
+
+
+            .header {
+                padding: 0 15px;
+            }
+
+
+            .page-heading p {
+                display: none;
+            }
+
+
+            .search-box {
+                display: none;
+            }
+
+
+            .stats-grid,
+            .billing-grid,
+            .three-grid,
+            .department-grid,
+            .doctor-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .hero {
+                padding: 25px;
+
+                min-height: 270px;
+            }
+
+
+            .hero-content h2 {
+                font-size: 23px;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .notification-drawer {
+                width: 90%;
+            }
+        }
+
+
+        /* =====================================================
+           PREMIUM REPORTS UI
+        ====================================================== */
+        .reports-shell { display:flex; flex-direction:column; gap:22px; }
+        .reports-hero { position:relative; overflow:hidden; display:flex; justify-content:space-between; gap:24px; padding:26px; border:1px solid #dbe7f5; border-radius:24px; background:linear-gradient(135deg,#eff6ff 0%,#ffffff 55%,#ecfeff 100%); box-shadow:0 18px 45px rgba(15,23,42,.07); }
+        .reports-hero:after { content:""; position:absolute; width:260px; height:260px; right:-90px; top:-120px; border-radius:50%; background:rgba(37,99,235,.09); }
+        .reports-eyebrow { display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border-radius:999px; background:#dbeafe; color:#1d4ed8; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.07em; }
+        .reports-hero h2 { margin:11px 0 6px; font-size:22px; color:#0f172a; }
+        .reports-hero p { max-width:650px; color:#64748b; font-size:12px; line-height:1.7; }
+        .reports-hero-actions { position:relative; z-index:1; display:flex; align-items:center; gap:10px; }
+        .report-summary-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+        .report-summary-item { padding:16px 18px; background:#fff; border:1px solid #e5eaf2; border-radius:16px; box-shadow:0 8px 25px rgba(15,23,42,.045); }
+        .report-summary-item span { display:block; color:#64748b; font-size:10px; margin-bottom:7px; }
+        .report-summary-item strong { display:block; color:#0f172a; font-size:19px; }
+        .report-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+        .report-card { position:relative; overflow:hidden; min-height:285px; padding:22px; background:#fff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:0 10px 30px rgba(15,23,42,.055); transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease; cursor:pointer; }
+        .report-card:hover { transform:translateY(-5px); border-color:#bfdbfe; box-shadow:0 18px 42px rgba(37,99,235,.12); }
+        .report-card-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+        .report-icon { width:50px; height:50px; display:grid; place-items:center; border-radius:15px; background:#eff6ff; color:#2563eb; }
+        .report-icon svg { width:22px; height:22px; }
+        .report-type { padding:5px 8px; border-radius:999px; background:#f8fafc; color:#64748b; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; }
+        .report-card h3 { margin-top:18px; font-size:16px; color:#0f172a; }
+        .report-card p { min-height:43px; margin-top:8px; color:#64748b; font-size:11px; line-height:1.65; }
+        .report-mini-stats { display:grid; grid-template-columns:repeat(2,1fr); gap:9px; margin:17px 0; }
+        .report-mini-stat { padding:10px; background:#f8fafc; border-radius:12px; }
+        .report-mini-stat span { display:block; color:#64748b; font-size:9px; margin-bottom:4px; }
+        .report-mini-stat strong { color:#0f172a; font-size:12px; }
+        .report-card-footer { display:flex; align-items:center; justify-content:space-between; padding-top:14px; border-top:1px solid #eef2f7; }
+        .report-open-link { display:inline-flex; align-items:center; gap:6px; border:0; background:transparent; color:#2563eb; font-size:11px; font-weight:800; cursor:pointer; }
+        .report-open-link svg { width:15px; }
+        .report-download-link { display:inline-flex; align-items:center; gap:5px; color:#475569; font-size:10px; font-weight:700; }
+        .report-download-link svg { width:14px; }
+        .report-empty { padding:28px; text-align:center; color:#64748b; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:16px; }
+
+        .report-modal .modal { max-width:1080px; }
+        .report-modal-body { padding:0 !important; background:#f8fafc; }
+        .report-view { padding:22px; }
+        .report-view-head { display:flex; justify-content:space-between; align-items:flex-start; gap:18px; padding:20px; border:1px solid #e2e8f0; border-radius:18px; background:#fff; }
+        .report-view-head h2 { font-size:20px; color:#0f172a; }
+        .report-view-head p { margin-top:5px; color:#64748b; font-size:11px; }
+        .report-actions { display:flex; gap:8px; flex-wrap:wrap; }
+        .report-action-btn { display:inline-flex; align-items:center; gap:7px; padding:10px 13px; border-radius:10px; border:1px solid #dbe4ef; background:#fff; color:#334155; font-size:10px; font-weight:800; cursor:pointer; }
+        .report-action-btn.primary { color:#fff; background:#2563eb; border-color:#2563eb; }
+        .report-action-btn:hover { transform:translateY(-1px); }
+        .report-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:15px 0; }
+        .report-kpi { padding:16px; background:#fff; border:1px solid #e2e8f0; border-radius:15px; }
+        .report-kpi span { display:block; color:#64748b; font-size:9px; margin-bottom:7px; }
+        .report-kpi strong { display:block; color:#0f172a; font-size:18px; }
+        .report-content-grid { display:grid; grid-template-columns:1.05fr 1.95fr; gap:15px; }
+        .report-panel { background:#fff; border:1px solid #e2e8f0; border-radius:17px; padding:18px; overflow:hidden; }
+        .report-panel h4 { font-size:12px; color:#0f172a; margin-bottom:14px; }
+        .report-bars { display:flex; flex-direction:column; gap:13px; }
+        .report-bar-row { display:grid; grid-template-columns:100px 1fr 45px; align-items:center; gap:8px; font-size:10px; color:#475569; }
+        .report-bar-track { height:9px; border-radius:999px; background:#eef2f7; overflow:hidden; }
+        .report-bar-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,#2563eb,#06b6d4); }
+        .report-table-wrap { overflow:auto; max-height:315px; }
+        .report-table { width:100%; border-collapse:collapse; min-width:560px; }
+        .report-table th { position:sticky; top:0; background:#f8fafc; color:#64748b; font-size:9px; text-align:left; padding:10px; border-bottom:1px solid #e2e8f0; }
+        .report-table td { color:#334155; font-size:10px; padding:11px 10px; border-bottom:1px solid #eef2f7; }
+        .report-badge { display:inline-flex; padding:4px 7px; border-radius:999px; background:#ecfdf5; color:#15803d; font-size:8px; font-weight:800; }
+        .report-download-box { margin-top:15px; padding:18px; border:1px dashed #bfdbfe; border-radius:17px; background:linear-gradient(135deg,#eff6ff,#f8fafc); display:flex; align-items:center; justify-content:space-between; gap:15px; }
+        .report-download-box strong { display:block; color:#0f172a; font-size:12px; }
+        .report-download-box span { display:block; margin-top:4px; color:#64748b; font-size:10px; }
+        .report-download-actions { display:flex; gap:8px; flex-wrap:wrap; }
+
+        @media(max-width:1000px){ .report-grid{grid-template-columns:1fr 1fr}.report-summary-strip{grid-template-columns:1fr 1fr}.report-kpis{grid-template-columns:1fr 1fr}.report-content-grid{grid-template-columns:1fr}.reports-hero{flex-direction:column}.report-modal .modal{max-width:95vw} }
+        @media(max-width:650px){ .report-grid,.report-summary-strip,.report-kpis{grid-template-columns:1fr}.report-view-head,.report-download-box{flex-direction:column;align-items:flex-start}.report-actions,.report-download-actions{width:100%} }
+
+    </style>
+
+
+<style id="doctor-enhancement-css">
+/* Doctor module enhancement styles are embedded here intentionally so the Doctor UI remains self-contained without changing the rest of the application styling. */
+/* =========================================================
+   DOCTOR MANAGEMENT - PREMIUM PROFILE EXPERIENCE
+   ========================================================= */
+
+.doctor-summary-bar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(110px, 1fr)) minmax(260px, 1.8fr);
+    gap: 12px;
+    margin: 0 0 20px;
+}
+
+.doctor-summary-item,
+.doctor-search-wrap {
+    min-height: 72px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.doctor-summary-item span { display:block; color:var(--muted); font-size:10px; }
+.doctor-summary-item strong { display:block; margin-top:7px; font-size:20px; letter-spacing:-.5px; }
+
+.doctor-search-wrap { display:flex; align-items:center; gap:9px; }
+.doctor-search-wrap svg { width:17px; color:var(--muted); flex-shrink:0; }
+.doctor-search-wrap input { width:100%; border:0; outline:0; background:transparent; color:var(--text); font-size:11px; }
+
+.doctor-card-modern {
+    position:relative; overflow:hidden; cursor:pointer;
+    border:1px solid var(--border); border-radius:20px; background:var(--surface);
+    box-shadow:var(--shadow); transition:.25s ease;
+}
+.doctor-card-modern:hover { transform:translateY(-5px); border-color:rgba(14,159,142,.3); box-shadow:0 22px 48px rgba(30,68,73,.14); }
+.doctor-card-modern:focus-visible { outline:3px solid rgba(14,159,142,.2); outline-offset:3px; }
+.doctor-card-banner { height:76px; padding:14px; display:flex; justify-content:space-between; align-items:flex-start; background:linear-gradient(135deg,#0e9f8e,#2563eb); }
+.doctor-department-pill { padding:6px 9px; border-radius:20px; color:white; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.2); font-size:9px; font-weight:700; backdrop-filter:blur(8px); }
+.doctor-card-menu { width:32px; height:32px; display:grid; place-items:center; border:1px solid rgba(255,255,255,.25); border-radius:10px; color:white; background:rgba(255,255,255,.12); }
+.doctor-card-menu svg { width:15px; }
+.doctor-card-body { padding:0 18px 16px; }
+.doctor-card-avatar-wrap { position:relative; width:78px; height:78px; margin:-39px 0 10px; }
+.doctor-card-avatar { width:78px; height:78px; display:grid; place-items:center; border-radius:50%; border:5px solid var(--surface); background:linear-gradient(135deg,#6074e8,#8b65df); color:#fff; font-size:21px; font-weight:800; box-shadow:0 8px 20px rgba(37,99,235,.2); }
+.doctor-presence { position:absolute; right:3px; bottom:4px; width:15px; height:15px; border-radius:50%; border:3px solid var(--surface); background:var(--success); }
+.doctor-presence.busy { background:var(--warning); } .doctor-presence.offline { background:var(--muted); }
+.doctor-card-title { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.doctor-card-title h3 { font-size:14px; font-weight:800; }
+.doctor-card-title p { margin-top:4px; color:var(--muted); font-size:10px; }
+.doctor-status-chip { flex-shrink:0; padding:5px 8px; border-radius:20px; background:#e9f8f0; color:#16835c; font-size:8px; font-weight:800; }
+.doctor-status-chip.busy { background:#fff4df; color:#b66d08; } .doctor-status-chip.offline { background:#eef1f3; color:#68777a; }
+.doctor-card-metrics { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:16px 0; }
+.doctor-card-metrics div { display:flex; align-items:center; gap:7px; padding:10px; border-radius:11px; background:var(--surface-soft); color:var(--muted); font-size:9px; }
+.doctor-card-metrics svg { width:14px; color:var(--primary); flex-shrink:0; } .doctor-card-metrics b { color:var(--text); }
+.doctor-card-footer { display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid var(--border); gap:8px; }
+.doctor-card-footer > span { display:flex; align-items:center; gap:5px; min-width:0; color:var(--muted); font-size:9px; }
+.doctor-card-footer svg { width:13px; color:var(--primary); flex-shrink:0; }
+.doctor-view-link { display:flex; align-items:center; gap:3px; border:0; background:transparent; color:var(--primary); font-size:9px; font-weight:800; white-space:nowrap; }
+.doctor-view-link svg { width:12px; }
+.doctor-empty { grid-column:1/-1; text-align:center; padding:70px 20px; border:1px dashed var(--border); border-radius:18px; background:var(--surface); }
+.doctor-empty svg { width:34px; color:var(--muted); margin-bottom:10px; } .doctor-empty h3 { font-size:15px; } .doctor-empty p { margin-top:5px; color:var(--muted); font-size:10px; }
+
+.doctor-profile-view { animation:doctorProfileIn .3s ease; }
+@keyframes doctorProfileIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.doctor-profile-topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:16px; }
+.doctor-profile-actions { display:flex; gap:8px; }
+.doctor-profile-actions .btn, .doctor-back-btn { min-height:38px; }
+.doctor-profile-hero { position:relative; overflow:hidden; padding:28px; border-radius:22px; color:white; background:linear-gradient(120deg,#0a6f68,#2563eb); box-shadow:0 18px 40px rgba(37,99,235,.18); }
+.doctor-profile-hero:after { content:""; position:absolute; width:240px; height:240px; border-radius:50%; right:-80px; top:-100px; background:rgba(255,255,255,.09); }
+.doctor-profile-identity { position:relative; z-index:1; display:flex; align-items:center; gap:18px; }
+.doctor-profile-avatar { width:92px; height:92px; flex-shrink:0; display:grid; place-items:center; border-radius:24px; background:rgba(255,255,255,.15); border:4px solid rgba(255,255,255,.32); font-size:26px; font-weight:800; box-shadow:0 12px 28px rgba(0,0,0,.14); }
+.doctor-profile-name-row { display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.doctor-profile-name-row h2 { font-size:27px; letter-spacing:-.6px; }
+.doctor-profile-hero p { margin-top:5px; color:#d9f5f2; font-size:12px; }
+.doctor-profile-status { display:inline-flex; padding:6px 10px; border-radius:20px; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2); color:white; font-size:9px; font-weight:800; }
+.doctor-profile-status.busy { background:rgba(245,158,11,.2); } .doctor-profile-status.offline { background:rgba(0,0,0,.14); }
+.doctor-profile-meta { display:flex; flex-wrap:wrap; gap:16px; margin-top:15px; }
+.doctor-profile-meta span { display:flex; align-items:center; gap:6px; color:#dbeafe; font-size:9px; }
+.doctor-profile-meta svg { width:14px; } .doctor-profile-meta b { color:white; }
+.doctor-profile-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:16px 0; }
+.doctor-profile-stats > div { padding:16px; border:1px solid var(--border); border-radius:16px; background:var(--surface); box-shadow:var(--shadow); }
+.doctor-profile-stats span { display:block; color:var(--muted); font-size:9px; } .doctor-profile-stats strong { display:block; margin-top:6px; font-size:20px; } .doctor-profile-stats small { display:block; margin-top:3px; color:var(--muted); font-size:8px; }
+.doctor-profile-layout { display:grid; grid-template-columns:minmax(0,1.65fr) minmax(280px,.85fr); gap:16px; }
+.doctor-profile-main, .doctor-profile-side { display:grid; gap:16px; align-content:start; }
+.doctor-info-card { padding:20px; border:1px solid var(--border); border-radius:18px; background:var(--surface); box-shadow:var(--shadow); }
+.doctor-info-card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:17px; }
+.doctor-info-card-head > svg { width:20px; color:var(--primary); }
+.eyebrow { display:block; color:var(--primary); font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.doctor-info-card h3 { font-size:14px; }
+.doctor-detail-fields { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+.doctor-detail-fields > div { padding:13px; border:1px solid var(--border); border-radius:12px; background:var(--surface-soft); }
+.doctor-detail-fields span { display:block; color:var(--muted); font-size:8px; margin-bottom:5px; } .doctor-detail-fields strong { font-size:10px; line-height:1.4; }
+.doctor-about { color:var(--muted); font-size:10px; line-height:1.8; }
+.doctor-schedule { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+.doctor-schedule > div { padding:12px 8px; text-align:center; border:1px solid var(--border); border-radius:11px; background:var(--surface-soft); }
+.doctor-schedule b { display:block; font-size:9px; } .doctor-schedule span { display:block; margin-top:5px; color:var(--muted); font-size:8px; line-height:1.35; }
+.contact-detail-row { display:flex; align-items:center; gap:10px; padding:12px 0; border-bottom:1px solid var(--border); } .contact-detail-row:last-child { border-bottom:0; }
+.contact-icon { width:34px; height:34px; display:grid; place-items:center; flex-shrink:0; border-radius:10px; color:var(--primary); background:var(--primary-light); } .contact-icon svg { width:15px; }
+.contact-detail-row small { display:block; color:var(--muted); font-size:8px; } .contact-detail-row strong { display:block; margin-top:3px; font-size:10px; overflow-wrap:anywhere; }
+.doctor-quick-action { width:100%; display:flex; align-items:center; gap:10px; padding:12px 0; border:0; border-bottom:1px solid var(--border); background:transparent; color:var(--text); text-align:left; font-size:10px; font-weight:700; } .doctor-quick-action:last-child { border-bottom:0; }
+.doctor-quick-action svg:first-child { width:15px; color:var(--primary); } .doctor-quick-action svg:last-child { width:13px; margin-left:auto; color:var(--muted); }
+
+[hidden] { display:none !important; }
+@media print { .sidebar, .top-header, .doctor-profile-topbar, .doctor-list-header, .doctor-summary-bar { display:none !important; } .main { margin-left:0 !important; } .doctor-profile-view { display:block !important; } .doctor-profile-hero { box-shadow:none; } }
+
+@media (max-width: 900px) {
+    .doctor-summary-bar { grid-template-columns:repeat(2,1fr); }
+    .doctor-profile-layout { grid-template-columns:1fr; }
+    .doctor-profile-stats { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width: 560px) {
+    .doctor-summary-bar { grid-template-columns:1fr 1fr; }
+    .doctor-search-wrap { grid-column:1/-1; }
+    .doctor-profile-topbar { align-items:stretch; flex-direction:column; }
+    .doctor-profile-actions { width:100%; } .doctor-profile-actions .btn { flex:1; }
+    .doctor-profile-identity { align-items:flex-start; flex-direction:column; }
+    .doctor-profile-name-row h2 { font-size:22px; }
+    .doctor-profile-meta { flex-direction:column; gap:8px; }
+    .doctor-detail-fields, .doctor-schedule { grid-template-columns:1fr; }
+}
+
+/* =========================================================
+   DOCTOR EXPERIENCE - REFINED UI
+   Only affects the Doctor module.
+========================================================= */
+.doctor-summary-bar{grid-template-columns:repeat(4,minmax(120px,1fr)) minmax(260px,1.8fr);align-items:stretch}
+.doctor-search-wrap{min-width:0;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow)}
+.doctor-card-modern{min-height:340px;border-radius:22px;background:var(--surface);box-shadow:0 10px 30px rgba(15,23,42,.07);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.doctor-card-modern:hover{transform:translateY(-7px);box-shadow:0 24px 55px rgba(15,23,42,.13);border-color:rgba(37,99,235,.22)}
+.doctor-card-banner{height:88px;background:linear-gradient(135deg,#0e9f8e 0%,#2563eb 58%,#5b4bd8 100%);position:relative}
+.doctor-card-banner:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-55px;top:-85px;background:rgba(255,255,255,.11)}
+.doctor-department-pill{position:relative;z-index:1;display:flex;align-items:center;gap:5px;font-size:9px}
+.doctor-department-pill svg{width:12px}
+.doctor-card-arrow{position:relative;z-index:1;width:32px;height:32px;border-radius:10px;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22)}
+.doctor-card-arrow svg{width:15px}
+.doctor-card-avatar-wrap{width:82px;height:82px;margin:-41px 0 12px;position:relative;z-index:2}
+.doctor-card-avatar{width:82px;height:82px;overflow:hidden;border-radius:24px;border:5px solid var(--surface);background:linear-gradient(135deg,#6478ea,#7b5dd6);box-shadow:0 12px 25px rgba(37,99,235,.2)}
+.doctor-card-avatar img,.doctor-profile-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.doctor-card-title h3{font-size:15px;line-height:1.3}
+.doctor-card-title p{font-size:10px;margin-top:5px}
+.doctor-status-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 9px}
+.doctor-status-chip span{width:6px;height:6px;border-radius:50%;background:currentColor}
+.doctor-card-working{display:flex;align-items:center;gap:10px;margin:15px 0 10px;padding:11px 12px;border:1px solid var(--border);border-radius:13px;background:var(--surface-soft)}
+.doctor-card-working>svg{width:17px;color:var(--primary);flex-shrink:0}
+.doctor-card-working small{display:block;color:var(--muted);font-size:8px;text-transform:uppercase;letter-spacing:.5px}
+.doctor-card-working strong{display:block;margin-top:3px;font-size:10px}
+.doctor-card-metrics{margin:10px 0 14px}
+.doctor-card-metrics div{padding:9px 10px}
+.doctor-card-footer{padding-top:13px}
+.doctor-view-link{font-size:9px}
+
+.doctor-profile-view{padding-bottom:20px}
+.doctor-profile-topbar{margin-bottom:18px}
+.doctor-profile-hero{padding:30px;border-radius:26px;min-height:190px;background:linear-gradient(120deg,#073f4a 0%,#0e7d75 42%,#2563eb 100%);box-shadow:0 20px 55px rgba(15,80,105,.22)}
+.doctor-profile-hero-pattern{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.15),transparent 27%),radial-gradient(circle at 95% 100%,rgba(255,255,255,.08),transparent 25%)}
+.doctor-profile-identity{gap:20px;align-items:center}
+.doctor-profile-avatar-wrap{position:relative;flex:0 0 auto}
+.doctor-profile-avatar{width:106px;height:106px;border-radius:28px;background:rgba(255,255,255,.15);border:4px solid rgba(255,255,255,.35);font-size:28px}
+.doctor-profile-presence{position:absolute;right:5px;bottom:6px;width:18px;height:18px;border-radius:50%;border:4px solid #0c6670;background:#22c55e}.doctor-profile-presence.busy{background:#f59e0b}.doctor-profile-presence.offline{background:#94a3b8}
+.doctor-profile-main-identity{min-width:0}
+.doctor-profile-kicker{display:flex;align-items:center;gap:5px;color:#bfeee9;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px}.doctor-profile-kicker svg{width:13px}
+.doctor-profile-name-row h2{font-size:30px}
+.doctor-profile-specialization{font-size:13px!important;color:#e0f7f4!important;margin-top:7px!important}
+.doctor-profile-meta{gap:13px;margin-top:16px}
+.doctor-profile-meta span{padding:6px 9px;border-radius:9px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.12)}
+.doctor-hero-highlight{margin-left:auto;min-width:155px;padding:16px;border-radius:16px;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px)}
+.doctor-hero-highlight span,.doctor-hero-highlight small{display:block;color:#cfe9ff;font-size:8px}.doctor-hero-highlight strong{display:block;color:#fff;font-size:23px;margin:5px 0}
+.doctor-profile-stats{gap:13px;margin:14px 0 18px}
+.doctor-stat-card{display:flex;align-items:center;gap:12px;padding:15px 16px!important}
+.doctor-stat-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:var(--primary-light);color:var(--primary)}.doctor-stat-icon svg{width:18px}
+.doctor-stat-card small{font-size:8px}.doctor-stat-card strong{font-size:20px;margin-top:4px}.doctor-stat-card em{display:block;font-style:normal;font-size:8px;color:var(--muted);margin-top:2px}
+.doctor-info-card{border-radius:20px;padding:21px}
+.doctor-info-card-head{margin-bottom:16px}.doctor-section-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:var(--primary-light);color:var(--primary)}.doctor-section-icon svg{width:17px}
+.doctor-overview-card{background:linear-gradient(135deg,var(--surface),var(--surface-soft))}
+.doctor-about{font-size:10.5px;line-height:1.9}
+.doctor-detail-fields{gap:11px}.doctor-detail-fields>div{padding:14px;border-radius:13px}.doctor-detail-fields span{font-size:8px}.doctor-detail-fields strong{font-size:10.5px}
+.doctor-schedule{grid-template-columns:repeat(5,1fr);gap:9px}.doctor-schedule>div{padding:13px 8px;border-radius:13px}.doctor-schedule>div:first-child{border-color:rgba(14,159,142,.35);background:rgba(14,159,142,.07)}
+.doctor-schedule b{font-size:9px}.doctor-schedule span{font-size:8px;line-height:1.5}
+.contact-detail-row{padding:13px 0}.contact-icon{width:36px;height:36px}
+.doctor-services-card .doctor-service-item{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--border);font-size:9.5px;font-weight:700}.doctor-service-item:last-child{border-bottom:0}.doctor-service-item svg{width:15px;color:var(--primary)}
+.doctor-action-card{overflow:hidden;padding:0}.doctor-action-banner{display:flex;align-items:center;justify-content:space-between;padding:18px;background:linear-gradient(135deg,#eefaf8,#eef4ff);border-bottom:1px solid var(--border)}.doctor-action-banner small{display:block;color:var(--muted);font-size:8px}.doctor-action-banner strong{display:block;font-size:12px;margin-top:4px}.doctor-action-banner>svg{width:23px;color:var(--primary)}
+.doctor-primary-action,.doctor-secondary-action{width:calc(100% - 28px);margin:14px 14px 0;display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:11px;font-size:9.5px;font-weight:800}.doctor-primary-action{border:0;background:var(--primary);color:#fff}.doctor-primary-action svg:last-child{margin-left:auto;width:13px}.doctor-secondary-action{margin-top:8px;margin-bottom:14px;border:1px solid var(--border);background:var(--surface);color:var(--text)}.doctor-primary-action svg,.doctor-secondary-action svg{width:15px}
+
+@media(max-width:900px){.doctor-summary-bar{grid-template-columns:repeat(2,1fr)}.doctor-profile-layout{grid-template-columns:1fr}.doctor-profile-stats{grid-template-columns:repeat(2,1fr)}.doctor-hero-highlight{display:none}}
+@media(max-width:560px){.doctor-summary-bar{grid-template-columns:1fr 1fr}.doctor-search-wrap{grid-column:1/-1}.doctor-profile-topbar{align-items:stretch;flex-direction:column}.doctor-profile-actions{width:100%}.doctor-profile-actions .btn{flex:1}.doctor-profile-identity{align-items:flex-start;flex-direction:column}.doctor-profile-name-row h2{font-size:22px}.doctor-profile-meta{flex-direction:column;gap:7px}.doctor-detail-fields,.doctor-schedule{grid-template-columns:1fr}.doctor-profile-avatar{width:88px;height:88px}.doctor-card-modern{min-height:0}}
+
+</style>
+    <link rel="stylesheet" href="style.css">
+
+<style id="medcare-beauty-upgrade">
+:root{--mc-primary:#0f318d;--mc-primary2:#1664a5;--mc-ink:#171b42;--mc-muted:#3c217a;--mc-surface:#ffffff;--mc-soft:#f4f8fa;--mc-border:#e2ebef;--mc-shadow:0 14px 38px rgba(22,58,78,.09)}
+body{background:linear-gradient(135deg,#f5fafb 0%,#f8fbfd 52%,#eef7f8 100%);color:var(--mc-ink)}
+.main-content{background:transparent}
+.page-section,.dashboard-section,.content-section{border-radius:24px}
+.card,.stat-card,.dashboard-card,.report-card,.table-card,.form-card,.chart-card{border:1px solid rgba(220,232,237,.9)!important;box-shadow:var(--mc-shadow)!important;background:rgba(255,255,255,.94)!important;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.card:hover,.stat-card:hover,.dashboard-card:hover,.report-card:hover,.chart-card:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(22,58,78,.13)!important;border-color:#cfe2e7!important}
+.page-header,.section-header{background:linear-gradient(135deg,#ffffff,#f2f9fa)!important;border:1px solid var(--mc-border)!important;border-radius:20px!important;box-shadow:0 10px 28px rgba(22,58,78,.06)!important}
+button,.btn{border-radius:12px!important;font-weight:700!important;transition:all .2s ease!important}
+button:hover,.btn:hover{transform:translateY(-1px)}
+input,select,textarea{border-radius:12px!important;border:1px solid #d8e5ea!important;background:#fbfdfe!important;box-shadow:inset 0 1px 2px rgba(0,0,0,.02)!important}
+input:focus,select:focus,textarea:focus{border-color:#54aeb2!important;box-shadow:0 0 0 4px rgba(15,139,141,.10)!important;outline:none!important}
+.dashboard-welcome,.dashboard-hero{border-radius:24px!important;background:linear-gradient(135deg,#0b6577,#0f8b8d 55%,#1664a5)!important;color:#fff!important;box-shadow:0 18px 40px rgba(15,139,141,.18)!important;overflow:hidden;position:relative}
+.dashboard-welcome:after,.dashboard-hero:after{content:"";position:absolute;right:-70px;top:-90px;width:260px;height:260px;border:35px solid rgba(255,255,255,.09);border-radius:50%}
+.chart-card{padding:20px!important}
+.chart-card h3{font-size:15px!important;letter-spacing:.2px}
+.report-summary-strip{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0 22px}
+.report-summary-item{background:linear-gradient(145deg,#fff,#f4fafb);border:1px solid #e0ecef;border-radius:18px;padding:18px 20px;box-shadow:0 10px 24px rgba(22,58,78,.06);position:relative;overflow:hidden}
+.report-summary-item:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(#0f8b8d,#1664a5)}
+.report-summary-item span{display:block;color:#748793;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}.report-summary-item strong{display:block;font-size:25px;margin-top:7px;color:#173b4c}
+.report-card{padding:20px!important;min-height:190px;display:flex;flex-direction:column}.report-card-top{display:flex;align-items:center;justify-content:space-between}.report-icon{width:46px!important;height:46px!important;border-radius:14px!important;background:linear-gradient(135deg,#e3f7f7,#e8f0fb)!important;color:#0f7f88!important;display:grid;place-items:center}.report-mini-stats{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.report-mini-stat{background:#f6fafb;border:1px solid #e3ecef;border-radius:13px;padding:10px}.report-mini-stat span{display:block;color:#82939c;font-size:11px}.report-mini-stat strong{display:block;color:#173b4c;font-size:18px;margin-top:3px}.report-card-footer{margin-top:auto;padding-top:16px;border-top:1px solid #edf2f4;display:flex;justify-content:space-between;align-items:center}
+.report-view{background:linear-gradient(135deg,#f7fbfc,#fff);padding:4px}.report-view-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;padding:18px 4px}.report-view-head h2{margin:0;color:#173b4c}.report-view-head p{margin:7px 0 0;color:#7b8d97}.report-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:6px 0 18px}.report-kpi{background:#fff;border:1px solid #e1ebee;border-radius:16px;padding:15px;box-shadow:0 8px 22px rgba(22,58,78,.05)}.report-kpi span{font-size:11px;color:#7c8e98;text-transform:uppercase;font-weight:700}.report-kpi strong{display:block;font-size:22px;margin-top:5px;color:#174458}.report-content-grid{display:grid;grid-template-columns:.8fr 1.6fr;gap:16px}.report-panel{background:#fff;border:1px solid #e1ebee;border-radius:18px;padding:18px;box-shadow:0 8px 22px rgba(22,58,78,.05)}.report-panel h4{margin:0 0 16px;color:#24495a}.report-bar-row{display:grid;grid-template-columns:90px 1fr 55px;gap:10px;align-items:center;margin:15px 0}.report-bar-row>span{font-size:12px;font-weight:700;color:#5d7480}.report-bar-track{height:11px;background:#edf4f6;border-radius:999px;overflow:hidden}.report-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#0f8b8d,#4fb6a9 55%,#1664a5);box-shadow:0 3px 8px rgba(15,139,141,.18)}.report-table-wrap{max-height:390px;overflow:auto}.report-table{width:100%;border-collapse:separate;border-spacing:0}.report-table th{position:sticky;top:0;background:#eef7f8;color:#47636f;font-size:11px;text-transform:uppercase;letter-spacing:.4px;padding:12px;text-align:left}.report-table td{padding:11px 12px;border-bottom:1px solid #edf2f4;font-size:12px}.report-table tr:hover td{background:#f8fcfc}.report-badge{display:inline-flex;padding:5px 9px;border-radius:999px;background:#e8f7f2;color:#1d7658;font-size:10px;font-weight:800}.report-download-box{margin-top:16px;background:linear-gradient(135deg,#edf8f8,#f2f6fb);border:1px solid #dcebed;border-radius:18px;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:16px}.report-download-box span{display:block;color:#70858f;font-size:12px;margin-top:4px}
+.settings-center{max-width:1220px;margin:0 auto}.settings-hero{border-radius:24px!important;background:linear-gradient(135deg,#0a6173,#0f8b8d 55%,#1664a5)!important;color:#fff!important;box-shadow:0 18px 42px rgba(15,139,141,.20)!important;padding:24px!important}.settings-layout{display:grid!important;grid-template-columns:245px 1fr!important;gap:18px!important;align-items:start}.settings-nav{position:sticky;top:18px;background:#fff;border:1px solid #e0eaee;border-radius:20px;padding:10px;box-shadow:0 10px 28px rgba(22,58,78,.07)}.settings-nav-item{width:100%;border:0;background:transparent;padding:12px 13px!important;border-radius:12px!important;text-align:left!important;color:#617984!important;display:flex!important;align-items:center;gap:10px}.settings-nav-item.active{background:linear-gradient(135deg,#e8f8f7,#eef4fb)!important;color:#0d7079!important;box-shadow:inset 3px 0 #0f8b8d}.settings-content{display:grid;gap:16px}.settings-panel{background:#fff;border:1px solid #e0eaee;border-radius:20px;padding:20px!important;box-shadow:0 10px 28px rgba(22,58,78,.06)}.settings-panel-head{display:flex;gap:13px;align-items:flex-start;margin-bottom:18px}.settings-icon{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#e5f7f7,#edf2fb);color:#0d7880;display:grid;place-items:center}.settings-form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.settings-form-grid label{font-size:12px;font-weight:700;color:#607984}.settings-form-grid input,.settings-form-grid textarea{margin-top:6px;width:100%;padding:11px 12px;box-sizing:border-box}.settings-wide{grid-column:1/-1}.settings-overview{display:grid!important;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}.settings-overview-card{background:#fff;border:1px solid #e0eaee;border-radius:16px;padding:14px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 20px rgba(22,58,78,.05)}.overview-icon{width:38px;height:38px;border-radius:11px;background:#eef8f8;color:#0f7f88;display:grid;place-items:center}.settings-overview-card small,.settings-overview-card em{display:block;color:#80919a;font-size:10px;font-style:normal}.settings-overview-card strong{display:block;font-size:13px;color:#1c4253;margin:2px 0}.location-showcase{margin-top:16px;display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.location-map{min-height:250px;border-radius:18px;overflow:hidden;position:relative;background:radial-gradient(circle at 25% 30%,rgba(15,139,141,.25) 0 3px,transparent 4px),linear-gradient(135deg,#dff2f0,#edf3f7 45%,#dce9f4);border:1px solid #dce8ec}.location-map:before,.location-map:after{content:"";position:absolute;background:rgba(255,255,255,.65);transform:rotate(-12deg);width:120%;height:35px;left:-10%;top:42%;box-shadow:0 60px rgba(255,255,255,.45),0 -75px rgba(255,255,255,.35)}.location-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-60%);width:64px;height:64px;border-radius:50% 50% 50% 8px;transform-origin:center;rotate:-45deg;background:linear-gradient(135deg,#e45757,#b52f4b);box-shadow:0 14px 24px rgba(181,47,75,.25);display:grid;place-items:center}.location-pin i{rotate:45deg;color:#fff}.location-info-card{background:linear-gradient(145deg,#fff,#f5fafb);border:1px solid #e0eaee;border-radius:18px;padding:20px}.location-info-card .loc-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eaf0f2}.location-info-card .loc-row:last-child{border-bottom:0}.loc-row i{color:#0f7f88}.loc-row strong{display:block;font-size:12px;color:#274b5a}.loc-row span{display:block;font-size:12px;color:#7b8e98;margin-top:2px}
+@media(max-width:900px){.report-summary-strip,.settings-overview{grid-template-columns:repeat(2,1fr)!important}.report-content-grid,.location-showcase,.settings-layout{grid-template-columns:1fr!important}.settings-nav{position:static}.settings-form-grid{grid-template-columns:1fr}.settings-wide{grid-column:auto}.report-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.report-summary-strip,.settings-overview,.report-kpis{grid-template-columns:1fr!important}.report-view-head,.report-download-box{flex-direction:column}.report-bar-row{grid-template-columns:72px 1fr 40px}}
+</style>
+
+
+<style id="medcare-v8-polish">
+/* =========================================================
+   V8 DASHBOARD / SEARCH / CORE PAGE POLISH
+========================================================= */
+.top-header{min-height:88px;height:auto;padding:14px 32px;gap:24px}
+.page-heading h1{font-size:27px!important;font-weight:900!important;letter-spacing:-.35px;line-height:1.15}
+.page-heading p{font-size:12px!important;font-weight:600!important;margin-top:5px!important}
+.header-right{gap:12px!important}
+.search-box{width:300px!important;height:50px!important;border-radius:14px!important;padding:0 15px!important;gap:10px!important;box-shadow:0 6px 20px rgba(23,48,66,.06)}
+.search-box i{width:20px!important;height:20px!important;stroke-width:2.4!important;color:#0f8b8d!important;flex:0 0 auto}
+.search-box input{font-size:14px!important;font-weight:650!important;letter-spacing:.05px}
+.search-box input::placeholder{font-weight:600!important;color:#8a989e!important}
+/* Dashboard */
+#dashboard .hero,.dashboard-welcome,.dashboard-hero{min-height:245px!important;padding:40px!important;border-radius:26px!important}
+#dashboard .hero-content h2,.dashboard-welcome h2,.dashboard-hero h2{font-size:34px!important;line-height:1.15!important;font-weight:900!important;letter-spacing:-.6px!important;margin-bottom:12px!important}
+#dashboard .hero-content p,.dashboard-welcome p,.dashboard-hero p{font-size:14px!important;line-height:1.75!important;font-weight:550!important;max-width:760px!important}
+#dashboard .hero-actions{gap:12px!important;margin-top:20px!important}
+#dashboard .stats-grid,.dashboard-stats,.stats-grid{gap:18px!important}
+#dashboard .stat-card,.stat-card{min-height:132px!important;padding:23px!important;border-radius:20px!important}
+#dashboard .stat-card h3,.stat-card h3{font-size:30px!important;font-weight:900!important}
+#dashboard .stat-card p,.stat-card p{font-size:12px!important;font-weight:700!important}
+#dashboard .chart-card{padding:24px!important;border-radius:20px!important}
+#dashboard .chart-card h3{font-size:17px!important;font-weight:850!important}
+/* Patients */
+#patients .section-header,#doctors .section-header{padding:25px 28px!important;margin-bottom:18px!important;border-radius:22px!important}
+#patients .section-header h2,#doctors .section-header h2{font-size:27px!important;font-weight:900!important;letter-spacing:-.35px!important}
+#patients .section-header p,#doctors .section-header p{font-size:13px!important;font-weight:600!important;line-height:1.6!important}
+#patients .search-box,#doctors .search-box,.doctor-search-wrap{width:330px!important;height:50px!important}
+#patients .search-box input,#doctors .search-box input,.doctor-search-wrap input{font-size:14px!important;font-weight:650!important}
+#patients .table-card,#doctors .table-card{border-radius:20px!important}
+/* Doctor profile/list */
+.doctor-list-header{min-height:92px!important}
+.doctor-profile-hero{min-height:215px!important;padding:32px!important;border-radius:25px!important}
+.doctor-profile-hero h2,.doctor-profile-hero h3{font-size:28px!important;font-weight:900!important}
+.doctor-summary-bar{gap:14px!important;margin:18px 0!important}
+.doctor-summary-item{min-height:88px!important;padding:18px!important;border-radius:17px!important}
+.doctor-summary-item strong{font-size:25px!important;font-weight:900!important}
+/* Admin/settings */
+#settings .settings-hero{padding:30px!important;border-radius:26px!important}
+#settings .settings-hero h2{font-size:30px!important;font-weight:900!important}
+#settings .settings-panel{padding:24px!important;border-radius:20px!important}
+/* Global buttons */
+.btn,.btn-primary,.btn-light,.btn-outline{font-weight:800!important;letter-spacing:.05px}
+/* Responsive */
+@media(max-width:1100px){.search-box{width:300px!important}.top-header{padding:14px 22px}.page-heading h1{font-size:24px!important}}
+@media(max-width:800px){.top-header{padding:13px 16px}.header-right{width:100%}.search-box{width:100%!important}.page-heading h1{font-size:23px!important}#dashboard .hero,.dashboard-welcome,.dashboard-hero{padding:28px!important}#dashboard .hero-content h2,.dashboard-welcome h2,.dashboard-hero h2{font-size:28px!important}.doctor-search-wrap{width:100%!important}}
+</style>
+
+
+<style id="medcare-v9-premium-headings">
+/* =========================================================
+   V9 — PREMIUM PAGE HEADLINES
+   Dashboard • Patients • Doctors • Appointments
+   ========================================================= */
+.page-heading h1,
+#patients .section-header h2,
+#doctors .section-header h2,
+#appointments .section-header h2{
+    position:relative;
+    font-weight:950!important;
+    letter-spacing:-.7px!important;
+    line-height:1.08!important;
+    color:#102b45!important;
+    text-shadow:0 2px 10px rgba(25,118,210,.06);
+}
+
+.page-heading h1::after,
+#patients .section-header h2::after,
+#doctors .section-header h2::after,
+#appointments .section-header h2::after{
+    content:"";
+    display:block;
+    width:58px;
+    height:4px;
+    margin-top:10px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#0e9f8e,#1976d2,#60a5fa);
+    box-shadow:0 4px 12px rgba(25,118,210,.20);
+    transform-origin:left center;
+    animation:mcTitleLine .7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.page-heading h1::before,
+#patients .section-header h2::before,
+#doctors .section-header h2::before,
+#appointments .section-header h2::before{
+    position:absolute;
+    left:0;
+    bottom:calc(100% + 8px);
+    color:#1976d2;
+    font-size:9px;
+    line-height:1;
+    font-weight:900;
+    letter-spacing:1.8px;
+    text-transform:uppercase;
+    opacity:.82;
+}
+
+.page-heading h1::before{content:"MEDCARE HMS • CONTROL CENTER";}
+#patients .section-header h2::before{content:"PATIENT CARE • RECORDS";}
+#doctors .section-header h2::before{content:"CLINICAL TEAM • SPECIALISTS";}
+#appointments .section-header h2::before{content:"APPOINTMENT • CARE COORDINATION";}
+
+#patients .section-header,
+#doctors .section-header,
+#appointments .section-header{
+    position:relative;
+    overflow:visible!important;
+    padding:28px 30px!important;
+    margin-bottom:20px!important;
+    border:1px solid rgba(37,99,235,.13)!important;
+    border-radius:24px!important;
+    background:
+      radial-gradient(circle at 92% 12%,rgba(14,165,233,.10),transparent 23%),
+      linear-gradient(135deg,rgba(255,255,255,.98),rgba(241,249,255,.94))!important;
+    box-shadow:0 14px 38px rgba(15,72,120,.075), inset 0 1px 0 rgba(255,255,255,.9)!important;
+}
+
+#patients .section-header::after,
+#doctors .section-header::after,
+#appointments .section-header::after{
+    content:"";
+    position:absolute;
+    right:22px;
+    top:18px;
+    width:92px;
+    height:92px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(25,118,210,.10),transparent 68%);
+    pointer-events:none;
+}
+
+#patients .section-header p,
+#doctors .section-header p,
+#appointments .section-header p{
+    max-width:650px;
+    margin-top:10px!important;
+    color:#61778a!important;
+    font-size:13px!important;
+    font-weight:600!important;
+    line-height:1.65!important;
+}
+
+#patients .section-header .section-actions,
+#doctors .section-header .btn,
+#appointments .section-header .btn{
+    position:relative;
+    z-index:2;
+}
+
+@keyframes mcTitleLine{
+    from{opacity:0;transform:scaleX(.15)}
+    to{opacity:1;transform:scaleX(1)}
+}
+
+/* Dashboard hero/title gets a stronger premium entrance */
+#dashboard .hero,
+#dashboard .dashboard-welcome,
+#dashboard .dashboard-hero{
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(37,99,235,.13)!important;
+    box-shadow:0 22px 55px rgba(15,72,120,.11)!important;
+}
+#dashboard .hero::after,
+#dashboard .dashboard-welcome::after,
+#dashboard .dashboard-hero::after{
+    content:"";
+    position:absolute;
+    width:240px;height:240px;
+    right:-80px;top:-105px;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(255,255,255,.22),transparent 68%);
+    pointer-events:none;
+}
+
+/* Make dashboard title feel like the main command-center headline */
+#pageTitle{
+    background:linear-gradient(100deg,#0f314a 0%,#1976d2 55%,#0e9f8e 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+[data-theme="dark"] .page-heading h1,
+[data-theme="dark"] #patients .section-header h2,
+[data-theme="dark"] #doctors .section-header h2,
+[data-theme="dark"] #appointments .section-header h2{
+    color:#f3fbff!important;
+}
+[data-theme="dark"] #patients .section-header,
+[data-theme="dark"] #doctors .section-header,
+[data-theme="dark"] #appointments .section-header{
+    background:linear-gradient(135deg,rgba(17,42,67,.97),rgba(16,35,54,.94))!important;
+    border-color:rgba(96,165,250,.18)!important;
+}
+[data-theme="dark"] #patients .section-header p,
+[data-theme="dark"] #doctors .section-header p,
+[data-theme="dark"] #appointments .section-header p{color:#a8bfce!important}
+
+@media(max-width:700px){
+    .page-heading h1::before,
+    #patients .section-header h2::before,
+    #doctors .section-header h2::before,
+    #appointments .section-header h2::before{font-size:8px;letter-spacing:1.2px}
+    #patients .section-header,
+    #doctors .section-header,
+    #appointments .section-header{padding:25px 21px!important}
+}
+</style>
+
+<style id="medcare-v10-premium-headings">
+/* V10 — premium module headlines + stronger search controls */
+.page > .section-header,
+#appointments > .section-header,
+#departments > .section-header,
+#billing > .section-header,
+#settings > .section-header{
+  position:relative; overflow:hidden; padding:28px 30px!important; margin-bottom:20px!important;
+  border:1px solid rgba(15,139,141,.14)!important; border-radius:24px!important;
+  background:linear-gradient(135deg,rgba(255,255,255,.97),rgba(244,251,252,.93))!important;
+  box-shadow:0 14px 34px rgba(24,70,90,.10), inset 0 1px 0 rgba(255,255,255,.8)!important;
+}
+.page > .section-header:before{
+  content:""; position:absolute; width:180px;height:180px;right:-70px;top:-90px;border-radius:50%;
+  background:radial-gradient(circle,rgba(18,163,166,.18),transparent 68%); pointer-events:none;
+}
+.page > .section-header h2{
+  position:relative; z-index:1; margin:0!important; font-size:31px!important; line-height:1.1!important;
+  font-weight:950!important; letter-spacing:-.65px!important; color:#123c50!important;
+  text-shadow:0 2px 10px rgba(20,65,85,.08);
+}
+.page > .section-header h2:after{
+  content:""; display:block; width:78px; height:4px; margin-top:10px; border-radius:999px;
+  background:linear-gradient(90deg,#0f8b8d,#2779d0,#8ed9e0); box-shadow:0 4px 12px rgba(15,139,141,.20);
+}
+.page > .section-header p{position:relative;z-index:1;font-size:13px!important;font-weight:650!important;margin-top:9px!important;line-height:1.65!important;color:#647780!important}
+#appointments > .section-header h2{font-size:33px!important}
+#departments > .section-header h2{font-size:33px!important}
+#billing > .section-header h2{font-size:32px!important}
+#settings > .section-header h2{font-size:32px!important}
+.appointment-card-head{align-items:center!important;gap:22px!important;}
+.appointment-card-head .module-search-box{margin-left:auto}
+.module-search-row{display:flex;justify-content:flex-end;margin:-4px 0 16px}
+.module-search-box{
+  display:flex;align-items:center;gap:10px;width:360px;min-height:52px;padding:0 16px;border-radius:15px;
+  background:rgba(255,255,255,.98);border:1px solid #d7e7eb;box-shadow:0 7px 20px rgba(22,68,84,.08);
+}
+.module-search-box i{width:19px;height:19px;color:#0f8b8d;flex:0 0 auto;stroke-width:2.4}
+.module-search-box input{width:100%;border:0;outline:0;background:transparent;color:#173042;font-size:14px;font-weight:700;letter-spacing:.05px}
+.module-search-box input::placeholder{color:#7b8b92;font-weight:650}
+#appointments .module-search-box{width:370px}
+#departments .module-search-box{width:390px}
+#globalSearch.search-box{width:360px!important;height:54px!important;border-radius:15px!important}
+#globalSearch.search-box input{font-size:14.5px!important;font-weight:700!important}
+#patients .search-box,#doctors .search-box{width:350px!important;height:52px!important}
+@media(max-width:900px){
+  .page > .section-header{padding:23px!important}.page > .section-header h2,#appointments > .section-header h2,#departments > .section-header h2{font-size:27px!important}
+  .appointment-card-head{align-items:stretch!important;flex-direction:column}.appointment-card-head .module-search-box{margin-left:0;width:100%!important}.module-search-row{justify-content:stretch}.module-search-box,#departments .module-search-box{width:100%!important}
+  #globalSearch.search-box{width:100%!important}
+}
+.dark-theme .page > .section-header{background:linear-gradient(135deg,rgba(20,31,40,.98),rgba(22,40,50,.96))!important;border-color:rgba(111,215,218,.14)!important}
+.dark-theme .page > .section-header h2{color:#e9fbfc!important}.dark-theme .page > .section-header p{color:#9eb4bc!important}
+.dark-theme .module-search-box{background:#15252e;border-color:#2d4651}.dark-theme .module-search-box input{color:#e7f7f8}.dark-theme .module-search-box input::placeholder{color:#91a8b0}
+</style>
+<style id="medcare-v12-modal-upgrade">
+/* V12 — real-workflow modal experience */
+.modal-backdrop{overflow-y:auto;align-items:flex-start;padding:28px 18px;overscroll-behavior:contain}
+.modal{max-height:calc(100vh - 56px);overflow:hidden;display:flex;flex-direction:column}
+.modal-body{overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#0f8b8d #e9f1f3}
+.modal-body::-webkit-scrollbar{width:11px}.modal-body::-webkit-scrollbar-track{background:#e9f1f3;border-radius:12px}.modal-body::-webkit-scrollbar-thumb{background:linear-gradient(#0f8b8d,#1664a5);border-radius:12px;border:2px solid #e9f1f3}
+.patient-registration-modal{max-width:920px!important}.patient-registration-modal .modal-body{max-height:calc(100vh - 145px);padding:24px 26px 30px}
+.patient-registration-modal .form-grid{gap:18px}.patient-registration-modal .form-group input,.patient-registration-modal .form-group select,.patient-registration-modal .form-group textarea{min-height:48px;font-size:13px;padding:0 14px}.patient-registration-modal .form-group textarea{padding:13px 14px;min-height:105px}.patient-registration-modal .form-group label{font-size:11px;font-weight:800}.patient-form-section{margin-bottom:20px}
+#appointmentModal .modal{max-width:760px}.appointment-record-modal{max-width:980px!important}.appointment-record-modal .modal-body{max-height:calc(100vh - 150px);background:#f5f9fb;padding:26px}
+#appointmentModal .modal-body{max-height:calc(100vh - 145px);padding:24px 26px 30px}#appointmentModal .form-grid{gap:18px}#appointmentModal .form-group input,#appointmentModal .form-group select,#appointmentModal .form-group textarea{min-height:50px;font-size:13px;padding:0 14px}#appointmentModal .form-group textarea{padding:13px 14px;min-height:110px}#appointmentModal .modal-header{background:linear-gradient(135deg,#f4fbfb,#f2f7fd)}
+.appointment-row-actions{display:flex;gap:6px;align-items:center;white-space:nowrap}.appointment-row-actions .btn{width:34px;height:34px;padding:0;display:grid;place-items:center}.appointment-row-actions svg{width:15px;height:15px}
+.appointment-paper{background:#fff;border:1px solid #dce8ec;border-radius:22px;padding:30px;box-shadow:0 16px 40px rgba(18,58,76,.08)}.appointment-paper-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;border-bottom:1px solid #e2edf0;padding-bottom:20px}.appointment-paper-head span{font-size:10px;font-weight:900;letter-spacing:1.4px;color:#0f8b8d}.appointment-paper-head h1{margin:7px 0 4px;font-size:28px;font-weight:900;color:#173b4c}.appointment-paper-head p{margin:0;color:#7a8d97;font-size:12px}.appointment-status-large{padding:8px 13px;border-radius:999px;background:#eaf8f3;color:#18734f;font-size:11px;font-weight:900;text-transform:uppercase}.appointment-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}.appointment-detail-grid>div{background:linear-gradient(145deg,#fbfdfd,#f5f9fa);border:1px solid #e2edf0;border-radius:15px;padding:15px}.appointment-detail-grid>div.full{grid-column:1/-1}.appointment-detail-grid label{display:block;color:#78909a;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}.appointment-detail-grid strong{display:block;color:#214656;font-size:14px}.appointment-detail-grid small{display:block;color:#82949d;margin-top:4px;font-size:10px}.appointment-instruction{margin-top:18px;display:flex;gap:12px;align-items:flex-start;padding:16px;border-radius:15px;background:linear-gradient(135deg,#eaf8f8,#eef5fb);border:1px solid #d7e8ec;color:#315867}.appointment-instruction svg{width:20px;color:#0f8b8d;margin-top:2px}.appointment-instruction strong{display:block;font-size:12px}.appointment-instruction span{display:block;font-size:11px;margin-top:4px;line-height:1.6;color:#66808b}
+.appointment-card-head{gap:18px}.module-search-box{min-width:340px}.module-search-box input{font-size:13px!important;font-weight:700!important;min-height:46px}.module-search-box input::placeholder{font-size:12px;font-weight:600}
+@media(max-width:760px){.modal-backdrop{padding:12px}.modal{max-height:calc(100vh - 24px);border-radius:18px}.patient-registration-modal .modal-body,#appointmentModal .modal-body,.appointment-record-modal .modal-body{max-height:calc(100vh - 125px);padding:18px}.appointment-detail-grid{grid-template-columns:1fr}.appointment-detail-grid>div.full{grid-column:auto}.appointment-paper{padding:20px}.appointment-paper-head{flex-direction:column}.module-search-box{min-width:0;width:100%}.appointment-card-head{flex-direction:column;align-items:stretch!important}}
+[data-theme="dark"] .appointment-paper,[data-theme="dark"] .appointment-detail-grid>div{background:#102a36;border-color:#244753}.data-theme-dark .appointment-paper{background:#102a36}
+</style>
+
+<style id="medcare-v13-search-reports">
+/* =========================================================
+   V13 PREMIUM SEARCH + REPORTS POLISH
+========================================================= */
+.module-search-box{width:330px;min-width:280px;height:48px;display:flex;align-items:center;gap:10px;padding:0 14px;border:1px solid #d7e5ea;border-radius:14px;background:linear-gradient(145deg,#fff,#f8fcfd);box-shadow:0 7px 22px rgba(22,58,78,.07);transition:all .2s ease;box-sizing:border-box}
+.module-search-box:focus-within{border-color:#4caeb2;box-shadow:0 0 0 4px rgba(15,139,141,.10),0 10px 26px rgba(22,58,78,.09);transform:translateY(-1px)}
+.module-search-box i{width:19px;height:19px;flex:0 0 auto;color:#0f8b8d;stroke-width:2.4}
+.module-search-box input{width:100%;height:100%;border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;border-radius:0!important;color:#173042;font-size:13px;font-weight:700;letter-spacing:.05px;padding:0!important}
+.module-search-box input::placeholder{color:#80929a;font-size:12px;font-weight:600;opacity:1}
+#patients .search-box,#doctors .search-box,#appointments .search-box,#departments .search-box{width:330px!important;height:50px!important}
+#patients .search-box input,#doctors .search-box input,#appointments .search-box input,#departments .search-box input{font-size:14px!important;font-weight:700!important}
+#patients .search-box input::placeholder,#doctors .search-box input::placeholder,#appointments .search-box input::placeholder,#departments .search-box input::placeholder{font-weight:600!important}
+.billing-card-header{align-items:center!important;gap:18px}
+.billing-card-header .module-search-box{margin-left:auto}
+.reports-filter-bar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:2px 0 20px;padding:15px 17px;border:1px solid #dcebed;border-radius:18px;background:linear-gradient(135deg,#ffffff,#f4fafb);box-shadow:0 10px 26px rgba(22,58,78,.06)}
+.reports-filter-title{display:flex;align-items:center;gap:11px;min-width:0}
+.reports-filter-title strong{display:block;color:#173b4c;font-size:13px;font-weight:850}
+.reports-filter-title small{display:block;margin-top:3px;color:#80919a;font-size:10px;font-weight:600}
+.reports-filter-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#e5f7f7,#edf3fb);color:#0f7f88}
+.reports-filter-icon svg{width:18px}
+.reports-search-box{width:390px;min-width:320px}
+.report-card.is-hidden{display:none!important}
+@media(max-width:900px){.reports-filter-bar{align-items:stretch;flex-direction:column}.reports-search-box{width:100%;min-width:0}.billing-card-header{align-items:flex-start!important;flex-direction:column}.billing-card-header .module-search-box{width:100%;margin-left:0}}
+@media(max-width:600px){.module-search-box,#patients .search-box,#doctors .search-box,#appointments .search-box,#departments .search-box{width:100%!important;min-width:0}.reports-filter-bar{padding:13px}.reports-filter-title strong{font-size:12px}}
+[data-theme="dark"] .module-search-box,[data-theme="dark"] .reports-filter-bar{background:#10232d;border-color:#29404a;box-shadow:none}
+[data-theme="dark"] .module-search-box input,[data-theme="dark"] .reports-filter-title strong{color:#e6f3f5}
+[data-theme="dark"] .module-search-box input::placeholder,[data-theme="dark"] .reports-filter-title small{color:#8fa7b0}
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+
+                <i data-lucide="heart-pulse"></i>
+
+            </div>
+
+            <div class="brand-text">
+
+                <h2>MedCare HMS</h2>
+
+                <span>Hospital Management</span>
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+
+        <nav class="menu">
+
+            <button
+                class="menu-item active"
+                data-page="dashboard">
+
+                <i data-lucide="layout-dashboard"></i>
+
+                <span>Dashboard</span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                data-page="patients">
+
+                <i data-lucide="users"></i>
+
+                <span>Patients</span>
+
+                <span
+                    class="menu-badge"
+                    id="patientBadge">
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                data-page="doctors">
+
+                <i data-lucide="stethoscope"></i>
+
+                <span>Doctors</span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                data-page="appointments">
+
+                <i data-lucide="calendar-days"></i>
+
+                <span>Appointments</span>
+
+                <span
+                    class="menu-badge"
+                    id="appointmentBadge">
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                data-page="departments">
+
+                <i data-lucide="building-2"></i>
+
+                <span>Departments</span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                data-page="billing">
+
+                <i data-lucide="receipt"></i>
+
+                <span>Billing & Payments</span>
+
+            </button>
+
+
+            <button class="menu-item" data-page="nursing"><i data-lucide="heart-handshake"></i><span>Nursing</span></button>
+            <button class="menu-item" data-page="icu"><i data-lucide="activity"></i><span>ICU</span><span class="menu-badge">24</span></button>
+            <button class="menu-item" data-page="supervisors"><i data-lucide="user-cog"></i><span>Supervisors</span></button>
+            <button class="menu-item" data-page="admissions"><i data-lucide="bed-double"></i><span>Admissions & Discharge</span></button>
+            <button class="menu-item" data-page="rooms"><i data-lucide="bed"></i><span>Rooms & Beds</span></button>
+            <button class="menu-item" data-page="treatment"><i data-lucide="clipboard-plus"></i><span>Medical Records</span></button>
+            <button class="menu-item" data-page="laboratory"><i data-lucide="test-tube-2"></i><span>Laboratory</span></button>
+            <button class="menu-item" data-page="radiology"><i data-lucide="scan-line"></i><span>Radiology</span></button>
+            <button class="menu-item" data-page="pharmacy"><i data-lucide="pill"></i><span>Pharmacy</span></button>
+            <button class="menu-item" data-page="dietary"><i data-lucide="utensils"></i><span>Dietary & Nutrition</span></button>
+            <button class="menu-item" data-page="frontdesk"><i data-lucide="concierge-bell"></i><span>Front Desk</span></button>
+            <button class="menu-item" data-page="finance"><i data-lucide="indian-rupee"></i><span>Finance & Accounts</span></button>
+            <button class="menu-item" data-page="staff"><i data-lucide="users-round"></i><span>Staff & HR</span></button>
+            <button class="menu-item" data-page="inventory"><i data-lucide="boxes"></i><span>Inventory & Supplies</span></button>
+            <button class="menu-item" data-page="emergency"><i data-lucide="siren"></i><span>Emergency</span><span class="menu-badge danger">6</span></button>
+
+            <div class="menu-title">
+                Management
+            </div>
+
+
+            <button
+                class="menu-item"
+                data-page="reports">
+
+                <i data-lucide="bar-chart-3"></i>
+
+                <span>Reports</span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                data-page="settings">
+
+                <i data-lucide="settings"></i>
+
+                <span>Settings</span>
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="logoutUser(event)">
+
+                <i data-lucide="log-out"></i>
+
+                <span>Logout</span>
+
+            </button>
+           
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div class="user-avatar">
+                    MC
+                </div>
+
+                <div>
+
+                    <strong>
+                        Hospital Admin
+                    </strong>
+
+                    <span>
+                        Administrator
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="header">
+
+            <div class="header-left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu">
+
+                    <i data-lucide="menu"></i>
+
+                </button>
+
+
+                <button
+                    class="collapse-btn"
+                    id="collapseBtn">
+
+                    <i data-lucide="panel-left"></i>
+
+                </button>
+
+
+                <div class="page-heading">
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Welcome back, Hospital Administrator
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="header-right">
+
+
+                <div class="search-box">
+
+                    <i data-lucide="search"></i>
+
+                    <input
+                        type="text"
+                        id="globalSearch"
+                        placeholder="Search patients or doctors...">
+
+                </div>
+
+
+                <button
+                    class="icon-btn"
+                    id="themeBtn"
+                    title="Toggle theme">
+
+                    <i data-lucide="moon"></i>
+
+                </button>
+
+
+                <button
+                    class="icon-btn"
+                    id="notificationBtn"
+                    title="Notifications">
+
+                    <i data-lucide="bell"></i>
+
+                    <span class="notification-dot"></span>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 DASHBOARD
+            ================================================== -->
+
+            <div
+                class="page active"
+                id="dashboard">
+
+
+                <div class="hero">
+
+                    <div class="hero-content">
+
+                        <small>
+                            <i data-lucide="shield-check"
+                               style="width:12px;vertical-align:middle;">
+                            </i>
+                            Secure Healthcare Management
+                        </small>
+
+                        <h2>
+                            Better Healthcare.
+                            Better Management.
+                        </h2>
+
+                        <p>
+                            Manage patients, doctors,
+                            appointments, departments,
+                            billing and hospital reports
+                            from one powerful platform.
+                        </p>
+
+
+                        <div class="hero-actions">
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="showPage('appointments');openAppointmentModal();">
+
+                                <i data-lucide="calendar-plus"></i>
+
+                                New Appointment
+
+                            </button>
+
+
+                            <button
+                                class="btn btn-light"
+                                onclick="showPage('patients');openModal('patientModal');">
+
+                                <i data-lucide="user-plus"></i>
+
+                                Add Patient
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- STATS -->
+
+                <div class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+                                <i data-lucide="users"></i>
+                            </div>
+
+                            <span class="stat-trend">
+                                Active
+                            </span>
+
+                        </div>
+
+                        <h3 id="dashboardPatientCount">
+                            0
+                        </h3>
+
+                        <p>
+                            Total Patients
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+                                <i data-lucide="stethoscope"></i>
+                            </div>
+
+                            <span class="stat-trend">
+                                Staff
+                            </span>
+
+                        </div>
+
+                        <h3 id="dashboardDoctorCount">
+                            0
+                        </h3>
+
+                        <p>
+                            Medical Doctors
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+                                <i data-lucide="calendar-check"></i>
+                            </div>
+
+                            <span class="stat-trend">
+                                Today
+                            </span>
+
+                        </div>
+
+                        <h3 id="dashboardAppointmentCount">
+                            0
+                        </h3>
+
+                        <p>
+                            Appointments
+                        </p>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+                                <i data-lucide="indian-rupee"></i>
+                            </div>
+
+                            <span class="stat-trend">
+                                Revenue
+                            </span>
+
+                        </div>
+
+                        <h3 id="dashboardRevenue">
+                            ₹0
+                        </h3>
+
+                        <p>
+                            Paid Revenue
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CHARTS -->
+
+                <div class="two-grid">
+
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>
+                                    Patient Overview
+                                </h3>
+
+                                <p>
+                                    Monthly patient registrations
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="chart-box">
+
+                                <canvas
+                                    id="patientChart">
+                                </canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>
+                                    Department Distribution
+                                </h3>
+
+                                <p>
+                                    Doctors by department
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="chart-box">
+
+                                <canvas
+                                    id="departmentChart">
+                                </canvas>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- APPOINTMENTS + SCHEDULE -->
+
+                <div class="two-grid">
+
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>
+                                    Recent Appointments
+                                </h3>
+
+                                <p>
+                                    Latest scheduled appointments
+                                </p>
+
+                            </div>
+
+                            <button
+                                class="btn btn-light"
+                                onclick="showPage('appointments')">
+
+                                View All
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+
+                                <tr>
+
+                                    <th>Patient</th>
+
+                                    <th>Doctor</th>
+
+                                    <th>Department</th>
+
+                                    <th>Date</th>
+
+                                    <th>Status</th>
+
+                                </tr>
+
+                                </thead>
+
+
+                                <tbody
+                                    id="dashboardAppointmentTable">
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>
+                                    Today's Schedule
+                                </h3>
+
+                                <p>
+                                    Patient appointments
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="card-body">
+
+                            <div
+                                class="schedule-list"
+                                id="scheduleList">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PATIENTS
+            ================================================== -->
+
+            <div
+                class="page"
+                id="patients">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Patient Management
+                        </h2>
+
+                        <p>
+                            Maintain patient records,
+                            contact information and medical details.
+                        </p>
+
+                    </div>
+
+
+                    <div class="section-actions">
+
+                        <button
+                            class="btn btn-light"
+                            onclick="exportPatientCSV()">
+
+                            <i data-lucide="download"></i>
+
+                            Export
+
+                        </button>
+
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="openModal('patientModal')">
+
+                            <i data-lucide="user-plus"></i>
+
+                            Add Patient
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <h3>
+                                Patient Directory
+                            </h3>
+
+                            <p id="patientCount">
+                                Registered patients
+                            </p>
+
+                        </div>
+
+
+                        <div class="search-box">
+
+                            <i data-lucide="search"></i>
+
+                            <input
+                                type="text"
+                                id="patientSearch"
+                                placeholder="Search patient...">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>ID</th>
+                                <th>Patient</th>
+                                <th>Age</th>
+                                <th>Gender</th>
+                                <th>Profession</th>
+                                <th>Phone</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody id="patientTable">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DOCTORS
+            ================================================== -->
+
+            <div class="page" id="doctors">
+
+                <div class="section-header doctor-list-header" id="doctorListHeader">
+                    <div>
+                        <h2>Doctor Management</h2>
+                        <p>Manage doctor profiles, specialization, departments and availability.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('doctorModal')">
+                        <i data-lucide="user-round-plus"></i>
+                        Add Doctor
+                    </button>
+                </div>
+
+                <div class="doctor-summary-bar" id="doctorSummaryBar">
+                    <div class="doctor-summary-item"><span>Total Doctors</span><strong id="doctorTotalCount">0</strong></div>
+                    <div class="doctor-summary-item"><span>Available</span><strong id="doctorAvailableCount">0</strong></div>
+                    <div class="doctor-summary-item"><span>In Surgery / Busy</span><strong id="doctorBusyCount">0</strong></div>
+                    <div class="doctor-summary-item"><span>Departments</span><strong id="doctorDepartmentCount">0</strong></div>
+                    <div class="doctor-search-wrap">
+                        <i data-lucide="search"></i>
+                        <input id="doctorSearch" type="text" placeholder="Search doctor, specialty or department..." oninput="filterDoctors(this.value)">
+                    </div>
+                </div>
+
+                <div class="doctor-grid" id="doctorGrid"></div>
+
+                <div class="doctor-profile-view" id="doctorProfileView" hidden>
+                    <div class="doctor-profile-topbar">
+                        <button class="btn btn-light doctor-back-btn" onclick="closeDoctorProfile()"><i data-lucide="arrow-left"></i> Back to Doctors</button>
+                        <div class="doctor-profile-actions">
+                            <button class="btn btn-light" onclick="printDoctorProfile()"><i data-lucide="printer"></i> Print Profile</button>
+                            <button class="btn btn-primary" onclick="bookDoctorAppointment()"><i data-lucide="calendar-plus"></i> Schedule Appointment</button>
+                        </div>
+                    </div>
+
+                    <section class="doctor-profile-hero">
+                        <div class="doctor-profile-hero-pattern"></div>
+                        <div class="doctor-profile-identity">
+                            <div class="doctor-profile-avatar-wrap"><div class="doctor-profile-avatar" id="ddAvatar">DR</div><span class="doctor-profile-presence" id="ddPresence"></span></div>
+                            <div class="doctor-profile-main-identity">
+                                <div class="doctor-profile-kicker"><i data-lucide="badge-check"></i> Medical Professional</div>
+                                <div class="doctor-profile-name-row"><h2 id="ddName">Doctor Name</h2><span class="doctor-profile-status" id="ddStatus">Available</span></div>
+                                <p class="doctor-profile-specialization" id="ddSpecialization">Specialization</p>
+                                <div class="doctor-profile-meta"><span><i data-lucide="building-2"></i><b id="ddDepartment">Department</b></span><span><i data-lucide="badge-check"></i><b id="ddId">DR-001</b></span><span><i data-lucide="briefcase-business"></i><b id="ddExperience">10 years</b> experience</span></div>
+                            </div>
+                            <div class="doctor-hero-highlight"><span>Consultation Fee</span><strong id="ddFeeHero">₹2,500</strong><small>Standard consultation</small></div>
+                        </div>
+                    </section>
+
+                    <div class="doctor-profile-stats">
+                        <div class="doctor-stat-card"><span class="doctor-stat-icon"><i data-lucide="calendar-check-2"></i></span><div><small>Appointments</small><strong id="ddAppointments">0</strong><em>Total scheduled</em></div></div>
+                        <div class="doctor-stat-card"><span class="doctor-stat-icon"><i data-lucide="users"></i></span><div><small>Patients</small><strong id="ddPatients">0</strong><em>Unique patients</em></div></div>
+                        <div class="doctor-stat-card"><span class="doctor-stat-icon"><i data-lucide="star"></i></span><div><small>Patient Rating</small><strong id="ddRating">4.8</strong><em>Average feedback</em></div></div>
+                        <div class="doctor-stat-card"><span class="doctor-stat-icon"><i data-lucide="clock-3"></i></span><div><small>Working Hours</small><strong id="ddWorkingHours">09:00 AM</strong><em id="ddWorkingHoursSub">to 05:00 PM</em></div></div>
+                    </div>
+
+                    <div class="doctor-profile-layout">
+                        <main class="doctor-profile-main">
+                            <section class="doctor-info-card doctor-overview-card"><div class="doctor-info-card-head"><div><span class="eyebrow">Overview</span><h3>About the Doctor</h3></div><span class="doctor-section-icon"><i data-lucide="stethoscope"></i></span></div><p class="doctor-about" id="ddBio">Experienced medical professional dedicated to providing patient-focused care, accurate diagnosis and personalized treatment.</p></section>
+                            <section class="doctor-info-card"><div class="doctor-info-card-head"><div><span class="eyebrow">Credentials</span><h3>Professional Information</h3></div><span class="doctor-section-icon"><i data-lucide="graduation-cap"></i></span></div><div class="doctor-detail-fields"><div><span>Department</span><strong id="ddDepartment2">—</strong></div><div><span>Specialization</span><strong id="ddSpecialization2">—</strong></div><div><span>Experience</span><strong id="ddExperience2">—</strong></div><div><span>License / Registration</span><strong id="ddLicense">Not provided</strong></div><div><span>Education</span><strong id="ddEducation">MBBS, MD</strong></div><div><span>Consultation Type</span><strong id="ddConsultation">In-person & Teleconsultation</strong></div></div></section>
+                            <section class="doctor-info-card"><div class="doctor-info-card-head"><div><span class="eyebrow">Availability</span><h3>Weekly Working Schedule</h3></div><span class="doctor-section-icon"><i data-lucide="calendar-days"></i></span></div><div class="doctor-schedule" id="ddSchedule"></div></section>
+                        </main>
+                        <aside class="doctor-profile-side">
+                            <section class="doctor-info-card contact-card-modern"><div class="doctor-info-card-head"><div><span class="eyebrow">Reach</span><h3>Contact Details</h3></div><span class="doctor-section-icon"><i data-lucide="contact"></i></span></div><div class="contact-detail-row"><span class="contact-icon"><i data-lucide="phone"></i></span><div><small>Phone</small><strong id="ddPhone">Not provided</strong></div></div><div class="contact-detail-row"><span class="contact-icon"><i data-lucide="mail"></i></span><div><small>Email</small><strong id="ddEmail">Not provided</strong></div></div><div class="contact-detail-row"><span class="contact-icon"><i data-lucide="door-open"></i></span><div><small>Consultation Room</small><strong id="ddRoom">Not assigned</strong></div></div></section>
+                            <section class="doctor-info-card doctor-services-card"><div class="doctor-info-card-head"><div><span class="eyebrow">Care</span><h3>Doctor Services</h3></div><span class="doctor-section-icon"><i data-lucide="heart-pulse"></i></span></div><div class="doctor-service-item"><i data-lucide="stethoscope"></i><span>Clinical Consultation</span></div><div class="doctor-service-item"><i data-lucide="clipboard-check"></i><span>Diagnosis & Follow-up</span></div><div class="doctor-service-item"><i data-lucide="video"></i><span>Teleconsultation</span></div></section>
+                            <section class="doctor-info-card doctor-action-card"><div class="doctor-action-banner"><div><small>Need an appointment?</small><strong>Book a consultation</strong></div><i data-lucide="calendar-plus"></i></div><button class="doctor-primary-action" onclick="bookDoctorAppointment()"><i data-lucide="calendar-plus"></i> Schedule Appointment <i data-lucide="arrow-up-right"></i></button><button class="doctor-secondary-action" onclick="copyDoctorContact()"><i data-lucide="copy"></i> Copy Contact Details</button></section>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- =================================================
+                 APPOINTMENTS
+            ================================================== -->
+
+            <div
+                class="page"
+                id="appointments">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Appointment
+                        </h2>
+
+                        <p>
+                            Schedule and manage appointments
+                            between patients and doctors.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openAppointmentModal()">
+
+                        <i data-lucide="calendar-plus"></i>
+
+                        Schedule Appointment
+
+                    </button>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-header appointment-card-head">
+
+                        <div>
+
+                            <h3>
+                                Appointment Schedule
+                            </h3>
+
+                            <p>
+                                Patient and doctor appointments
+                            </p>
+
+                        </div>
+
+                        <div class="module-search-box">
+                            <i data-lucide="search"></i>
+                            <input id="appointmentSearch" type="text" placeholder="Search patient, doctor or department..." oninput="filterAppointments(this.value)">
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Patient</th>
+                                <th>Doctor</th>
+                                <th>Department</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="appointmentTable">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 DEPARTMENTS
+            ================================================== -->
+
+            <div
+                class="page"
+                id="departments">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Hospital Departments
+                        </h2>
+
+                        <p>
+                            Organize hospital departments
+                            and healthcare services.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="module-search-row">
+                    <div class="module-search-box department-search-box">
+                        <i data-lucide="search"></i>
+                        <input id="departmentSearch" type="text" placeholder="Search department or healthcare service..." oninput="filterDepartments(this.value)">
+                    </div>
+                </div>
+
+                <div class="department-overview-strip">
+                    <div class="department-overview-card"><div class="department-overview-icon"><i data-lucide="building-2"></i></div><div><strong>8</strong><span>Departments</span></div></div>
+                    <div class="department-overview-card"><div class="department-overview-icon"><i data-lucide="stethoscope"></i></div><div><strong>42</strong><span>Doctors</span></div></div>
+                    <div class="department-overview-card"><div class="department-overview-icon"><i data-lucide="clock-3"></i></div><div><strong>24/7</strong><span>Emergency Care</span></div></div>
+                    <div class="department-overview-card"><div class="department-overview-icon"><i data-lucide="activity"></i></div><div><strong>15+</strong><span>Diagnostic Services</span></div></div>
+                </div>
+                <div class="department-slider-shell">
+                  <button class="department-slide-btn prev" type="button" onclick="slideDepartments(-1)" aria-label="Previous departments"><i data-lucide="chevron-left"></i></button>
+                  <div class="department-slider-viewport"><div class="department-grid" id="departmentGrid">
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="heart-pulse"></i>
+                        </div>
+
+                        <h3>
+                            Cardiology
+                        </h3>
+
+                        <p>
+                            Heart and cardiovascular
+                            diagnosis and treatment.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Doctors</span>
+                            <strong>12</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="brain"></i>
+                        </div>
+
+                        <h3>
+                            Neurology
+                        </h3>
+
+                        <p>
+                            Diagnosis and treatment of
+                            nervous system disorders.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Doctors</span>
+                            <strong>9</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="baby"></i>
+                        </div>
+
+                        <h3>
+                            Pediatrics
+                        </h3>
+
+                        <p>
+                            Specialized healthcare
+                            services for children.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Doctors</span>
+                            <strong>8</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="bone"></i>
+                        </div>
+
+                        <h3>
+                            Orthopedics
+                        </h3>
+
+                        <p>
+                            Bone, joint, muscle and
+                            orthopedic healthcare.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Doctors</span>
+                            <strong>7</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="eye"></i>
+                        </div>
+
+                        <h3>
+                            Ophthalmology
+                        </h3>
+
+                        <p>
+                            Complete eye care,
+                            diagnosis and surgery.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Doctors</span>
+                            <strong>6</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="activity"></i>
+                        </div>
+
+                        <h3>
+                            Emergency
+                        </h3>
+
+                        <p>
+                            24/7 emergency medical
+                            and trauma services.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Available</span>
+                            <strong>24/7</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="scan"></i>
+                        </div>
+
+                        <h3>
+                            Radiology
+                        </h3>
+
+                        <p>
+                            Imaging, scans, X-rays
+                            and diagnostic services.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Services</span>
+                            <strong>15+</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+
+                    <div class="department-card">
+
+                        <div class="department-icon">
+                            <i data-lucide="flask-conical"></i>
+                        </div>
+
+                        <h3>
+                            Laboratory
+                        </h3>
+
+                        <p>
+                            Medical tests and laboratory
+                            diagnostic services.
+                        </p>
+
+                        <div class="department-meta">
+                            <span>Tests</span>
+                            <strong>100+</strong>
+                        </div>
+
+                        <button class="department-view-btn" type="button" onclick="viewDepartment(this.closest('.department-card'))"><i data-lucide="eye"></i><span>View Details</span></button>
+
+                    </div>
+
+                </div>
+                  <div class="department-slider-controls"><span id="departmentSlideLabel">Showing departments 1–4</span><div class="department-dots" id="departmentDots"></div></div>
+                  </div>
+                  <button class="department-slide-btn next" type="button" onclick="slideDepartments(1)" aria-label="Next departments"><i data-lucide="chevron-right"></i></button>
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 BILLING
+            ================================================== -->
+
+            <div
+                class="page"
+                id="billing">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h2>
+                            Billing & Payments
+                        </h2>
+
+                        <p>
+                            Manage hospital billing,
+                            payments and invoices.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openModal('invoiceModal')">
+
+                        <i data-lucide="file-plus-2"></i>
+
+                        Create Invoice
+
+                    </button>
+
+                </div>
+
+
+                <div class="billing-grid">
+
+
+                    <div class="billing-box">
+
+                        <span>
+                            Total Revenue
+                        </span>
+
+                        <h2 id="billingRevenue">
+                            ₹0
+                        </h2>
+
+                    </div>
+
+
+                    <div class="billing-box">
+
+                        <span>
+                            Paid Amount
+                        </span>
+
+                        <h2 id="billingPaid">
+                            ₹0
+                        </h2>
+
+                    </div>
+
+
+                    <div class="billing-box">
+                        <span>Pending Amount</span>
+                        <h2 id="billingPending">₹0</h2>
+                    </div>
+                    <div class="billing-box billing-box-accent">
+                        <span>Total Invoices</span>
+                        <h2 id="billingInvoiceCount">0</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="billing-report-tools">
+                    <div class="billing-report-head">
+                        <div>
+                            <span class="billing-kicker">BILLING ANALYTICS</span>
+                            <h3>Bill Reports &amp; Collection Analysis</h3>
+                            <p>See every bill, total amount, paid amount, pending balance and collection status.</p>
+                        </div>
+                        <div class="billing-report-actions">
+                            <button class="btn btn-primary btn-sm" onclick="printBillingReport()"><i data-lucide="printer"></i> Print Report</button>
+                            <button class="btn btn-light btn-sm" onclick="downloadBillingCSV()"><i data-lucide="download"></i> Download CSV</button>
+                            <button class="btn btn-light btn-sm" onclick="showPage('billing')"><i data-lucide="refresh-cw"></i> Refresh</button>
+                        </div>
+                    </div>
+                    <div class="billing-report-grid">
+                        <div class="billing-chart-card"><div class="billing-chart-title"><strong>Bill vs Paid</strong><span>All invoices</span></div><div class="billing-chart-wrap"><canvas id="billingBillPaidChart"></canvas></div></div>
+                        <div class="billing-chart-card"><div class="billing-chart-title"><strong>Collection Status</strong><span>Paid / Pending</span></div><div class="billing-chart-wrap"><canvas id="billingStatusChart"></canvas></div></div>
+                        <div class="billing-chart-card billing-ledger-card">
+  <div class="billing-chart-title billing-ledger-head">
+    <div><strong>Patient-wise Bill Ledger</strong><span>Every patient: total bill, paid amount and balance due</span></div>
+    <div class="billing-ledger-search"><i data-lucide="search"></i><input id="billingPatientSearch" type="text" placeholder="Search patient, invoice, doctor or service..." oninput="renderBillingAnalytics(this.value)"></div>
+  </div>
+  <div class="billing-ledger-slider">
+    <button class="billing-ledger-slide prev" type="button" onclick="slideBillingLedger(-1)" aria-label="Previous patients"><i data-lucide="chevron-left"></i></button>
+    <div class="billing-ledger-viewport"><div class="billing-ledger" id="billingLedger"></div></div>
+    <button class="billing-ledger-slide next" type="button" onclick="slideBillingLedger(1)" aria-label="Next patients"><i data-lucide="chevron-right"></i></button>
+  </div>
+  <div class="billing-ledger-footer"><span id="billingLedgerLabel">Patient billing records</span><div class="billing-ledger-dots" id="billingLedgerDots"></div></div>
+</div>
+                    </div>
+                </div>
+
+                <div class="card">
+
+                    <div class="card-header billing-card-header">
+
+                        <div>
+
+                            <h3>
+                                Invoice Management
+                            </h3>
+
+                            <p>
+                                Recent hospital invoices
+                            </p>
+
+                        </div>
+                        <div class="module-search-box module-search-full">
+                            <i data-lucide="search"></i>
+                            <input id="billingSearch" type="text" placeholder="Search invoice, patient, doctor, service, date or payment status..." oninput="filterBilling(this.value)">
+                            <button type="button" class="search-clear-btn" onclick="document.getElementById('billingSearch').value='';filterBilling('')" title="Clear search"><i data-lucide="x"></i></button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+
+                            <tr>
+
+                                <th>Invoice</th>
+                                <th>Patient</th>
+                                <th>Diagnosis / Service</th>
+                                <th>Doctor</th>
+                                <th>Total</th>
+                                <th>Paid</th>
+                                <th>Balance</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Document</th>
+
+                            </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="invoiceTable">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 REPORTS
+            ================================================== -->
+
+            <div class="page" id="reports">
+
+                <div class="reports-shell">
+
+                    <div class="reports-hero">
+                        <div>
+                            <span class="reports-eyebrow"><i data-lucide="bar-chart-3"></i> Hospital Analytics</span>
+                            <h2>Reports &amp; Insights</h2>
+                            <p>Access patient, appointment and revenue intelligence from one place. Open any report for detailed insights, records and download options.</p>
+                        </div>
+                        <div class="reports-hero-actions">
+                            <button class="btn btn-primary" onclick="generateReport()"><i data-lucide="download"></i> Download Summary</button>
+                        </div>
+                    </div>
+
+                    <div class="report-summary-strip" id="reportSummaryStrip"></div>
+
+                    <div class="reports-filter-bar">
+                        <div class="reports-filter-title">
+                            <span class="reports-filter-icon"><i data-lucide="sliders-horizontal"></i></span>
+                            <div><strong>Report Search &amp; Filters</strong><small>Find a report quickly by name or category</small></div>
+                        </div>
+                        <div class="module-search-box reports-search-box">
+                            <i data-lucide="search"></i>
+                            <input id="reportSearch" type="text" placeholder="Search patient, appointment, revenue or report..." oninput="filterReports(this.value)">
+                        </div>
+                    </div>
+
+                    <div class="report-grid" id="reportGrid">
+
+                        <div class="report-card" role="button" tabindex="0" onclick="openReport('patients')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReport('patients')}">
+                            <div class="report-card-top">
+                                <div class="report-icon"><i data-lucide="users"></i></div>
+                                <span class="report-type">Clinical</span>
+                            </div>
+                            <h3>Patient Report</h3>
+                            <p>Review registered patients, demographics, age profile and patient activity.</p>
+                            <div class="report-mini-stats" id="patientReportMini"></div>
+                            <div class="report-card-footer">
+                                <button class="report-open-link" onclick="event.stopPropagation();openReport('patients')">View Report <i data-lucide="arrow-right"></i></button>
+                                <span class="report-download-link"><i data-lucide="download"></i> Download</span>
+                            </div>
+                        </div>
+
+                        <div class="report-card" role="button" tabindex="0" onclick="openReport('appointments')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReport('appointments')}">
+                            <div class="report-card-top">
+                                <div class="report-icon"><i data-lucide="calendar-check-2"></i></div>
+                                <span class="report-type">Operations</span>
+                            </div>
+                            <h3>Appointment Report</h3>
+                            <p>Monitor appointment volume, status, doctors, departments and scheduled visits.</p>
+                            <div class="report-mini-stats" id="appointmentReportMini"></div>
+                            <div class="report-card-footer">
+                                <button class="report-open-link" onclick="event.stopPropagation();openReport('appointments')">View Report <i data-lucide="arrow-right"></i></button>
+                                <span class="report-download-link"><i data-lucide="download"></i> Download</span>
+                            </div>
+                        </div>
+
+                        <div class="report-card" role="button" tabindex="0" onclick="openReport('revenue')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openReport('revenue')}">
+                            <div class="report-card-top">
+                                <div class="report-icon"><i data-lucide="indian-rupee"></i></div>
+                                <span class="report-type">Finance</span>
+                            </div>
+                            <h3>Revenue Report</h3>
+                            <p>Analyze billing, collections, payment status and revenue generated by the hospital.</p>
+                            <div class="report-mini-stats" id="revenueReportMini"></div>
+                            <div class="report-card-footer">
+                                <button class="report-open-link" onclick="event.stopPropagation();openReport('revenue')">View Report <i data-lucide="arrow-right"></i></button>
+                                <span class="report-download-link"><i data-lucide="download"></i> Download</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- =================================================
+                 SETTINGS
+            ================================================== -->
+
+            <div
+                class="page"
+                id="settings">
+
+
+                <div class="section-header settings-section-header">
+
+                    <div>
+
+                        <span class="settings-section-kicker">SYSTEM CONTROL</span>
+                        <h2>
+                            Hospital Settings
+                        </h2>
+
+                        <p>
+                            Configure hospital system preferences.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="three-grid">
+
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="department-icon">
+
+                                <i data-lucide="hospital"></i>
+
+                            </div>
+
+                            <h3>
+                                Hospital Information
+                            </h3>
+
+                            <p style="
+                                font-size:10px;
+                                color:var(--muted);
+                                margin-top:8px;
+                                line-height:1.7;
+                            ">
+
+                                MedCare Multi-Speciality Hospital
+
+                                <br>
+
+                                New Delhi, India
+
+                                <br>
+
+                                Phone:
+                                +91 98765 43210
+
+                                <br>
+
+                                Email:
+                                info@medcarehospital.com
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="department-icon">
+
+                                <i data-lucide="shield-check"></i>
+
+                            </div>
+
+                            <h3>
+                                Security
+                            </h3>
+
+                            <p style="
+                                font-size:10px;
+                                color:var(--muted);
+                                margin-top:8px;
+                                line-height:1.7;
+                            ">
+
+                                Patient data is stored
+                                locally for this demo.
+                                Authentication and
+                                role-based access can
+                                be connected to a backend.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-body">
+
+                            <div class="department-icon">
+
+                                <i data-lucide="database"></i>
+
+                            </div>
+
+                            <h3>
+                                Data Management
+                            </h3>
+
+                            <p style="
+                                font-size:10px;
+                                color:var(--muted);
+                                margin-top:8px;
+                                line-height:1.7;
+                            ">
+
+                                Patients, doctors,
+                                appointments and invoices
+                                are connected through
+                                browser LocalStorage.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+
+<!-- =========================================================
+     REPORT VIEW MODAL
+========================================================== -->
+<div class="modal-backdrop report-modal" id="reportViewModal">
+    <div class="modal">
+        <div class="modal-header">
+            <div>
+                <h2 id="reportModalTitle">Report</h2>
+            </div>
+            <button class="modal-close" onclick="closeModal('reportViewModal')"><i data-lucide="x"></i></button>
+        </div>
+        <div class="modal-body report-modal-body">
+            <div id="reportModalContent"></div>
+        </div>
+    </div>
+</div>
+
+<!-- BILL / INVOICE RECORD MODAL -->
+<div class="modal-backdrop" id="invoiceRecordModal">
+  <div class="modal invoice-record-modal">
+    <div class="modal-header">
+      <div><span class="modal-eyebrow">HOSPITAL BILL</span><h2>Patient Invoice &amp; Payment Record</h2><p class="modal-subtitle">Professional one-page billing document with diagnosis, charges, paid amount and balance.</p></div>
+      <div class="patient-record-actions"><button class="btn btn-light btn-sm" onclick="printInvoice()"><i data-lucide="printer"></i> Print</button><button class="btn btn-primary btn-sm" onclick="downloadInvoiceWord()"><i data-lucide="file-text"></i> Download Word</button><button class="modal-close" onclick="closeModal('invoiceRecordModal')"><i data-lucide="x"></i></button></div>
+    </div>
+    <div class="modal-body" id="invoiceRecordContent"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     PATIENT REGISTRATION + CLINICAL RECORD MODAL
+========================================================== -->
+<div
+    class="modal-backdrop"
+    id="patientModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>
+                Register New Patient
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('patientModal')">
+
+                <i data-lucide="x"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="patientForm">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Full Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="patientName"
+                            placeholder="Enter patient name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Age *
+                        </label>
+
+                        <input
+                            type="number"
+                            id="patientAge"
+                            placeholder="Age"
+                            min="0"
+                            max="120"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Gender *
+                        </label>
+
+                        <select
+                            id="patientGender"
+                            required>
+
+                            <option value="">
+                                Select gender
+                            </option>
+
+                            <option>
+                                Male
+                            </option>
+
+                            <option>
+                                Female
+                            </option>
+
+                            <option>
+                                Other
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Phone Number *
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="patientPhone"
+                            placeholder="+91 9876543210"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="patientEmail"
+                            placeholder="patient@email.com">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Blood Group
+                        </label>
+
+                        <select
+                            id="patientBloodGroup">
+
+                            <option value="">
+                                Select blood group
+                            </option>
+
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Address
+                        </label>
+
+                        <textarea
+                            id="patientAddress"
+                            placeholder="Enter complete address"></textarea>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label>
+                            Medical Details
+                        </label>
+
+                        <textarea
+                            id="patientMedicalDetails"
+                            placeholder="Medical history, allergies, current medications, diagnosis, etc."></textarea>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="doctorPhone" placeholder="+91 98765 43210">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="doctorEmail" placeholder="doctor@medcare.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>License / Registration No.</label>
+                        <input type="text" id="doctorLicense" placeholder="MCI / State registration number">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Education</label>
+                        <input type="text" id="doctorEducation" placeholder="MBBS, MD / MS">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Consultation Room</label>
+                        <input type="text" id="doctorRoom" placeholder="Room 204">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Consultation Fee (₹)</label>
+                        <input type="number" id="doctorFee" placeholder="2500" min="0">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Doctor Bio</label>
+                        <textarea id="doctorBio" placeholder="Short professional summary, expertise and patient-care focus..."></textarea>
+                    </div>
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            onclick="closeModal('patientModal')">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i data-lucide="save"></i>
+
+                            Register Patient
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PATIENT CLINICAL RECORD / PRESCRIPTION MODAL
+========================================================== -->
+<div class="modal-backdrop" id="patientRecordModal">
+  <div class="modal patient-record-modal">
+    <div class="modal-header patient-record-toolbar">
+      <div><span class="modal-eyebrow">CLINICAL RECORD</span><h2 id="patientRecordTitle">Patient Record</h2><p class="modal-subtitle">Patient profile, doctor notes and prescription</p></div>
+      <div class="patient-record-actions">
+        <button class="btn btn-light btn-sm" onclick="openPrescriptionEditor()"><i data-lucide="pen-line"></i> Doctor Note</button><button class="btn btn-light btn-sm" onclick="printPatientPrescription()"><i data-lucide="printer"></i> Print</button>
+        <button class="btn btn-primary btn-sm" onclick="downloadPatientPrescriptionWord()"><i data-lucide="file-text"></i> Download Word</button>
+        <button class="modal-close" onclick="closeModal('patientRecordModal')"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="modal-body patient-record-body" id="patientRecordContent"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     PRESCRIPTION EDITOR
+========================================================== -->
+<div class="modal-backdrop" id="prescriptionEditorModal">
+  <div class="modal" style="max-width:900px;width:calc(100% - 28px)">
+    <div class="modal-header"><div><span class="modal-eyebrow">DOCTOR WORKSPACE</span><h2>Clinical Notes & Prescription</h2><p class="modal-subtitle">Write the diagnosis, medicines, advice and follow-up exactly as a doctor would record it.</p></div><button class="modal-close" onclick="closeModal('prescriptionEditorModal')"><i data-lucide="x"></i></button></div>
+    <div class="modal-body">
+      <form id="prescriptionEditorForm">
+        <div class="patient-form-section"><div class="patient-form-section-title"><i data-lucide="stethoscope"></i><div><strong>Clinical Assessment</strong><span>Diagnosis and presenting complaint</span></div></div><div class="form-grid"><div class="form-group full"><label>Diagnosis / Clinical Impression</label><input id="rxDiagnosis" placeholder="e.g. Acute viral fever / Gastritis"></div></div></div>
+        <div class="patient-form-section"><div class="patient-form-section-title"><i data-lucide="pill"></i><div><strong>Prescription Medicines</strong><span>Medicine, dose, frequency and duration</span></div></div><div id="rxMedicineEditor"></div><button type="button" class="btn btn-light" onclick="addPrescriptionMedicineRow()"><i data-lucide="plus"></i> Add Medicine</button></div>
+        <div class="patient-form-section"><div class="patient-form-section-title"><i data-lucide="pen-line"></i><div><strong>Doctor's Notes</strong><span>Advice and follow-up instructions</span></div></div><div class="form-grid"><div class="form-group full"><label>Advice / Doctor's Notes</label><textarea id="rxAdvice" rows="4" placeholder="Write diet, rest, hydration, precautions and other medical advice..."></textarea></div><div class="form-group full"><label>Follow-up</label><input id="rxFollowup" placeholder="e.g. Review after 5 days or earlier if symptoms worsen."></div></div></div>
+        <div class="form-actions"><button type="button" class="btn btn-light" onclick="closeModal('prescriptionEditorModal')">Cancel</button><button type="submit" class="btn btn-primary"><i data-lucide="save"></i> Save Clinical Record</button></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     DOCTOR MODAL
+========================================================== -->
+
+<div
+    class="modal-backdrop"
+    id="doctorModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>
+                Add Doctor
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('doctorModal')">
+
+                <i data-lucide="x"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="doctorForm">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Doctor Name *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="doctorName"
+                            placeholder="Dr. Doctor Name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Specialization *
+                        </label>
+
+                        <input
+                            type="text"
+                            id="doctorSpecialization"
+                            placeholder="Cardiologist"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Department *
+                        </label>
+
+                        <select
+                            id="doctorDepartment"
+                            required>
+
+                            <option value="">
+                                Select department
+                            </option>
+
+                            <option>
+                                Cardiology
+                            </option>
+
+                            <option>
+                                Neurology
+                            </option>
+
+                            <option>
+                                Pediatrics
+                            </option>
+
+                            <option>
+                                Orthopedic
+                            </option>
+
+                            <option>
+                                Ophthalmology
+                            </option>
+
+                            <option>
+                                Emergency
+                            </option>
+
+                            <option>
+                                Radiology
+                            </option>
+
+                            <option>
+                                General Medicine
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Experience
+                        </label>
+
+                        <input
+                            type="number"
+                            id="doctorExperience"
+                            placeholder="Years"
+                            min="0">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Availability
+                        </label>
+
+                        <select
+                            id="doctorStatus">
+
+                            <option>
+                                Available
+                            </option>
+
+                            <option>
+                                Busy
+                            </option>
+
+                            <option>
+                                On Leave
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Doctor Photo
+                        </label>
+
+                        <div
+                            class="photo-upload">
+
+                            <input
+                                type="file"
+                                id="doctorPhoto"
+                                accept="image/*">
+
+                            <div
+                                id="doctorPhotoPlaceholder"
+                                style="
+                                    display:flex;
+                                    flex-direction:column;
+                                    align-items:center;
+                                    gap:7px;
+                                ">
+
+                                <i
+                                    data-lucide="camera">
+                                </i>
+
+                                <span>
+                                    Upload doctor photo
+                                </span>
+
+                                <small style="
+                                    font-size:8px;
+                                    color:#94a3b8;
+                                ">
+                                    JPG, PNG up to 2MB
+                                </small>
+
+                            </div>
+
+
+                            <img
+                                id="doctorPhotoPreview"
+                                alt="Doctor Preview">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            onclick="closeModal('doctorModal')">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i data-lucide="user-plus"></i>
+
+                            Add Doctor
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     APPOINTMENT MODAL
+========================================================== -->
+
+<div
+    class="modal-backdrop"
+    id="appointmentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>
+                Schedule Appointment
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('appointmentModal')">
+
+                <i data-lucide="x"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="appointmentForm">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Patient *
+                        </label>
+
+                        <select
+                            id="appointmentPatient"
+                            required>
+
+                            <option value="">
+                                Select patient
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Doctor *
+                        </label>
+
+                        <select
+                            id="appointmentDoctor"
+                            required>
+
+                            <option value="">
+                                Select doctor
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Appointment Date *
+                        </label>
+
+                        <input
+                            type="date"
+                            id="appointmentDate"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Appointment Time *
+                        </label>
+
+                        <input
+                            type="time"
+                            id="appointmentTime"
+                            required>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label>Appointment Type</label>
+                        <select id="appointmentType">
+                            <option>In-Person</option>
+                            <option>Online Consultation</option>
+                            <option>Teleconsultation</option>
+                            <option>Follow-up Visit</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Patient Contact</label>
+                        <input type="tel" id="appointmentContact" placeholder="Patient phone number">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Reason / Notes</label>
+                        <textarea id="appointmentNotes" rows="3" placeholder="Reason for visit, symptoms, online meeting note or special instructions..."></textarea>
+                    </div>
+
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            onclick="closeModal('appointmentModal')">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i data-lucide="calendar-check"></i>
+
+                            Book Appointment
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     APPOINTMENT RECORD MODAL
+========================================================== -->
+<div class="modal-backdrop" id="appointmentRecordModal">
+  <div class="modal appointment-record-modal">
+    <div class="modal-header appointment-record-toolbar">
+      <div><span class="modal-eyebrow">APPOINTMENT RECORD</span><h2 id="appointmentRecordTitle">Appointment</h2><p class="modal-subtitle">Complete appointment details with print and Microsoft Word support.</p></div>
+      <div class="patient-record-actions">
+        <button class="btn btn-light btn-sm" onclick="printAppointment()"><i data-lucide="printer"></i> Print</button>
+        <button class="btn btn-primary btn-sm" onclick="downloadAppointmentWord()"><i data-lucide="file-text"></i> Download Word</button>
+        <button class="modal-close" onclick="closeModal('appointmentRecordModal')"><i data-lucide="x"></i></button>
+      </div>
+    </div>
+    <div class="modal-body" id="appointmentRecordContent"></div>
+  </div>
+</div>
+
+<!-- =========================================================
+     INVOICE MODAL
+========================================================== -->
+
+<div
+    class="modal-backdrop"
+    id="invoiceModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h2>
+                Create Invoice
+            </h2>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('invoiceModal')">
+
+                <i data-lucide="x"></i>
+
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="invoiceForm">
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Patient *
+                        </label>
+
+                        <select
+                            id="invoicePatient"
+                            required>
+
+                            <option value="">
+                                Select patient
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Diagnosis / Disease *</label>
+                        <input type="text" id="invoiceDiagnosis" placeholder="e.g. Fever, Migraine, Cardiac evaluation" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Consulting Doctor</label>
+                        <input type="text" id="invoiceDoctor" placeholder="Dr. Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Amount / Total Bill *</label>
+                        <input type="number" id="invoiceAmount" placeholder="₹ Total amount" min="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Paid Amount *</label>
+                        <input type="number" id="invoicePaid" placeholder="₹ Paid amount" min="0" value="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Payment Mode</label>
+                        <select id="invoicePaymentMode"><option>Cash</option><option>UPI</option><option>Card</option><option>Net Banking</option><option>Insurance</option></select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service / Charge Description *</label>
+                        <input type="text" id="invoiceService" placeholder="Consultation, Laboratory, Pharmacy, Room, ICU..." required>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Bill Notes</label>
+                        <textarea id="invoiceNotes" rows="3" placeholder="Additional charges, remarks, insurance notes..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>
+                            Payment Status
+                        </label>
+                        <select id="invoiceStatus"><option>Paid</option><option>Partially Paid</option><option>Pending</option></select>
+                    </div>
+
+
+
+                    <div class="form-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-light"
+                            onclick="closeModal('invoiceModal')">
+
+                            Cancel
+
+                        </button>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary">
+
+                            <i data-lucide="file-check"></i>
+
+                            Create Invoice
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     NOTIFICATION DRAWER
+========================================================== -->
+
+<div
+    class="overlay"
+    id="overlay">
+</div>
+
+
+<div
+    class="notification-drawer"
+    id="notificationDrawer">
+
+
+    <div class="notification-header">
+
+        <h3>
+            Notifications
+        </h3>
+
+        <button
+            class="modal-close"
+            onclick="closeNotifications()">
+
+            <i data-lucide="x"></i>
+
+        </button>
+
+    </div>
+
+
+    <div class="notification-item">
+
+        <div class="notification-icon">
+
+            <i data-lucide="calendar"></i>
+
+        </div>
+
+        <div>
+
+            <strong>
+                New Appointment
+            </strong>
+
+            <p>
+                A new patient appointment
+                has been scheduled.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="notification-item">
+
+        <div class="notification-icon">
+
+            <i data-lucide="user-plus"></i>
+
+        </div>
+
+        <div>
+
+            <strong>
+                Patient Registered
+            </strong>
+
+            <p>
+                A new patient has been
+                added to the hospital system.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="notification-item">
+
+        <div class="notification-icon">
+
+            <i data-lucide="receipt"></i>
+
+        </div>
+
+        <div>
+
+            <strong>
+                Payment Update
+            </strong>
+
+            <p>
+                An invoice payment status
+                has been updated.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     TOAST
+========================================================== -->
+
+<div id="toast">
+
+    <i
+        data-lucide="check-circle"
+        style="width:17px;">
+    </i>
+
+    <span id="toastText">
+        Success
+    </span>
+
+</div>
+
+<!-- =========================================================
+     SCRIPT
+========================================================== -->
+
+<script src="script.js"></script>
+
+
+<script>
+
+    /* =====================================================
+       EXTRA HTML SUPPORT
+    ====================================================== */
+
+    lucide.createIcons();
+
+
+    /* Set today's date automatically */
+
+    const appointmentDate =
+        document.getElementById(
+            "appointmentDate"
+        );
+
+    if (appointmentDate) {
+
+        const now = new Date();
+
+        const year =
+            now.getFullYear();
+
+        const month =
+            String(
+                now.getMonth() + 1
+            ).padStart(2,"0");
+
+        const day =
+            String(
+                now.getDate()
+            ).padStart(2,"0");
+
+        appointmentDate.value =
+            `${year}-${month}-${day}`;
+    }
+
+
+    /* Patient CSV export */
+
+    window.exportPatientCSV =
+        function() {
+
+            const patients =
+                JSON.parse(
+                    localStorage.getItem(
+                        "medcare_patients"
+                    )
+                ) || [];
+
+
+            if (!patients.length) {
+
+                if (window.showToast) {
+
+                    showToast(
+                        "No patient records available",
+                        "error"
+                    );
+
+                }
+
+                return;
+            }
+
+
+            let csv =
+                "ID,Name,Age,Gender,Phone,Email,Address,Medical Details\n";
+
+
+            patients.forEach(p => {
+
+                csv += [
+
+                    p.id,
+                    p.name,
+                    p.age,
+                    p.gender,
+                    p.phone,
+                    p.email || "",
+                    p.address || "",
+                    p.medicalDetails || ""
+
+                ]
+                .map(
+                    value =>
+                        `"${String(value)
+                            .replace(/"/g,'""')}"`
+                )
+                .join(",") + "\n";
+
+            });
+
+
+            const blob =
+                new Blob(
+                    [csv],
+                    {
+                        type:
+                            "text/csv;charset=utf-8"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(blob);
+
+
+            const a =
+                document.createElement("a");
+
+
+            a.href = url;
+
+            a.download =
+                "MedCare_Patient_Report.csv";
+
+
+            document.body.appendChild(a);
+
+            a.click();
+
+            a.remove();
+
+            URL.revokeObjectURL(url);
+
+
+            if (window.showToast) {
+
+                showToast(
+                    "Patient report exported successfully"
+                );
+
+            }
+
+        };
+
+
+    /* =====================================================
+       ENHANCED PATIENT SAVE
+    ====================================================== */
+
+    const patientForm =
+        document.getElementById(
+            "patientForm"
+        );
+
+
+    if (patientForm) {
+
+        patientForm.addEventListener(
+            "submit",
+            function() {
+
+                setTimeout(() => {
+
+                    const patients =
+                        JSON.parse(
+                            localStorage.getItem(
+                                "medcare_patients"
+                            )
+                        ) || [];
+
+
+                    if (!patients.length)
+                        return;
+
+
+                    const last =
+                        patients[
+                            patients.length - 1
+                        ];
+
+
+                    last.email =
+                        document.getElementById(
+                            "patientEmail"
+                        )?.value || "";
+
+
+                    last.address =
+                        document.getElementById(
+                            "patientAddress"
+                        )?.value || "";
+
+
+                    last.bloodGroup =
+                        document.getElementById(
+                            "patientBloodGroup"
+                        )?.value || "";
+
+
+                    last.medicalDetails =
+                        document.getElementById(
+                            "patientMedicalDetails"
+                        )?.value || "";
+
+
+                    localStorage.setItem(
+                        "medcare_patients",
+                        JSON.stringify(
+                            patients
+                        )
+                    );
+
+                }, 100);
+
+            }
+        );
+    }
+
+
+    /* =====================================================
+       DOCTOR DETAIL STATUS TEXT
+    ====================================================== */
+
+    const observer =
+        new MutationObserver(() => {
+
+            const status =
+                document.getElementById(
+                    "ddStatus"
+                );
+
+            const text =
+                document.getElementById(
+                    "ddStatusText"
+                );
+
+            if (
+                status &&
+                text
+            ) {
+
+                text.textContent =
+                    status.textContent;
+
+            }
+
+        });
+
+
+    const doctorStatusElement =
+        document.getElementById(
+            "ddStatus"
+        );
+
+
+    if (doctorStatusElement) {
+
+        observer.observe(
+            doctorStatusElement,
+            {
+                childList: true,
+                subtree: true,
+                characterData: true
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       CLOSE MODALS WITH ESCAPE
+    ====================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function(e) {
+
+            if (e.key !== "Escape")
+                return;
+
+
+            document
+                .querySelectorAll(
+                    ".modal-backdrop.show"
+                )
+                .forEach(modal => {
+
+                    modal.classList.remove(
+                        "show"
+                    );
+
+                });
+
+
+            if (window.closeNotifications) {
+
+                closeNotifications();
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>
